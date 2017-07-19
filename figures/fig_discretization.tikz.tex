@@ -1,0 +1,42 @@
+\begin{tikzpicture}[scale=1.0]
+
+  \tikzstyle{label}=[text=black]
+  \tikzstyle{species}=[minimum size=0.2ex, maximum size=0.2ex, fill=none,text=black]
+  
+  \shade[left color=edge_red, right color=node_red](0,0) rectangle (1,0.5);
+  \shade[left color=node_red, right color=node_blue](1,0) rectangle (4,0.5);
+  \shade[left color=node_blue,right color=node_green](4,0) rectangle (7,0.5);
+  \shade[left color=node_green,right color=edge_green](7,0) rectangle (8,0.5);
+  
+  \draw[<->,semithick]  (0,0) -- (8,0);
+  \draw[dashed] (1.3,-0.1) -- (1.3,0.5);
+  \draw[dashed] (3.3,-0.1) -- (3.3,0.5);
+  \draw[dashed] (4.7,-0.1) -- (4.7,0.5);
+  \draw[dashed] (6.8,-0.1) -- (6.8,0.5);
+  \node[label]  (l1) at (1.3,-0.3)  {$t_1$};
+  \node[label]  (l2) at (3.3,-0.3)  {$t_2$};
+  \node[label]  (l3) at (4.7,-0.3)  {$t_3$};
+  \node[label]  (l4) at (6.8,-0.3)  {$t_4$};
+  \node[label]  (l5) at (4,-0.3)  {$0$};
+  
+  \node[label]  (l1) at (0.6,1)  {~$\minus$};
+  \node[label]  (l2) at (2.3,1)  {~$\uncertaindecrease$};
+  \node[label]  (l3) at (4,1)  {$0$};
+  \node[label]  (l4) at (5.7,1)  {~$\uncertainincrease$};
+  \node[label]  (l5) at (7.4,1)  {$\plus$};
+  
+  \draw [decorate,decoration={brace,amplitude=5pt,raise=2pt},yshift=0pt]
+  (0,0.5) -- (1.3,0.5) node [black,midway,xshift=0.8cm] {\footnotesize };
+  
+  \draw [decorate,decoration={brace,amplitude=5pt,raise=2pt},yshift=0pt]
+  (1.3,0.5) -- (3.3,0.5) node [black,midway,xshift=0.8cm] {\footnotesize };
+
+  \draw [decorate,decoration={brace,amplitude=5pt,raise=2pt},yshift=0pt]
+  (3.3,0.5) -- (4.7,0.5) node [black,midway,xshift=0.8cm] {\footnotesize };
+
+  \draw [decorate,decoration={brace,amplitude=5pt,raise=2pt},yshift=0pt]
+  (4.7,0.5) -- (6.8,0.5) node [black,midway,xshift=0.8cm] {\footnotesize };
+
+  \draw [decorate,decoration={brace,amplitude=5pt,raise=2pt},yshift=0pt]
+  (6.8,0.5) -- (8,0.5) node [black,midway,xshift=0.8cm] {\footnotesize };
+\end{tikzpicture}
