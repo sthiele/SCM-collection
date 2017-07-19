@@ -1,0 +1,131 @@
+In this part I will introduce a new global consistency rule to ensure that every change
+is justified by a chain of influences that can be traced back to an input node.
+This natural constraint is especially useful to exclude self-justification of changes via positive feedback loops.
+
+
+\section*{Circular regulation}
+
+In most biological systems we find circular regulation via feedback loops.
+For the consistency rules that we've covered so far circular regulations pose the problem that
+ they allow to represent state transistions for which we can not identify the reason that trigger the state change.
+For example in Figure~\ref{fig:founded} we see an IG with labelings that explain an increase in $d$.
+Both total labelings satisfy the propagation rules (Rule~\ref{rule_bw} and~\ref{rule_fw}).
+For $\mu_1$ we see a circular up regulation in $b$ and $c$, which is used as explanation for the increase in $d$,
+ but we don't know why $b$ and $c$ have increase in the first place.
+Only the labeling $\mu_{2}$ allows us to identify a trigger for the state change, i.e. the increase in $a$.
+
+\begin{figure}
+\small
+\centering
+\begin{tabular}{p{70pt}p{70pt}p{70pt}p{70pt}}
+  \begin{tikzpicture}[->,semithick,>=stealth',scale=1.2]
+    \tikzstyle{label}=[text=black] 
+    \tikzstyle{node}=[draw=node_gray, circle, minimum size=2.0em, fill=none,text=black]
+    \tikzstyle{up}=[style=node,text=black,text opacity=1,fill=node_green,draw=edge_green]
+    \tikzstyle{dn}=[style=node,text=black,text opacity=1,fill=node_red,draw=edge_red]
+    \tikzstyle{zn}=[style=node,text=black,text opacity=1,fill=node_blue,draw=edge_blue]
+    \node[zn] (A) at (0.5,1)    {$a$};
+    \node[up] (B) at (1.5,1)    {$c$};
+    \node[up] (C) at (1.5,1.75) {$b$};
+    \node[up,thick] (D) at (1,0)      {$d$};
+    \node[label] (l1) at (1,-0.7) {$\mu_1$};
+    
+    \path[every node/.style={anchor=south}]
+     (0.5,1.3) edge[] (A)
+     (A) edge[edge_green] (D)
+     (B) edge[edge_green,bend right=50] (C.east)
+     (C) edge[edge_green,bend right=50] (B.west)     
+     (B) edge[edge_green] (D);
+  \end{tikzpicture}
+%   &
+%   \begin{tikzpicture}[->,semithick,>=stealth',scale=1.2]
+%     \tikzstyle{label}=[text=black] 
+%     \tikzstyle{node}=[draw=node_gray, circle, minimum size=2.0em, fill=none,text=black]
+%     \tikzstyle{up}=[style=node,text=black,text opacity=1,fill=node_green,draw=edge_green]
+%     \tikzstyle{dn}=[style=node,text=black,text opacity=1,fill=node_red,draw=edge_red]
+%     \tikzstyle{zn}=[style=node,text=black,text opacity=1,fill=node_blue,draw=edge_blue]
+%     \node[up] (A) at (0.5,1)    {$a$};
+%     \node[dn] (B) at (1.5,1)    {$c$};
+%     \node[dn] (C) at (1.5,1.75) {$b$};
+%     \node[up,thick] (D) at (1,0)      {$d$};   
+%     \node[label] (l1) at (1,-0.7) {$\mu_2$};
+%     
+%     \path[every node/.style={anchor=south}]
+%      (0.5,1.3) edge[] (A)
+%      (A) edge[edge_green] (D)
+%      (B) edge[edge_green,bend right=50] (C.east)
+%      (C) edge[edge_green,bend right=50] (B.west)     
+%      (B) edge[edge_green] (D);
+%   \end{tikzpicture}
+  & 
+  \begin{tikzpicture}[->,semithick,>=stealth',scale=1.2]
+    \tikzstyle{label}=[text=black] 
+    \tikzstyle{node}=[draw=node_gray, circle, minimum size=2.0em, fill=none,text=black]
+    \tikzstyle{up}=[style=node,text=black,text opacity=1,fill=node_green,draw=edge_green]
+    \tikzstyle{dn}=[style=node,text=black,text opacity=1,fill=node_red,draw=edge_red]
+    \tikzstyle{zn}=[style=node,text=black,text opacity=1,fill=node_blue,draw=edge_blue]
+
+    \node[up] (A) at (0.5,1)    {$a$};
+    \node[zn] (B) at (1.5,1)    {$c$};
+    \node[zn] (C) at (1.5,1.75) {$b$};
+    \node[up,thick] (D) at (1,0)      {$d$};
+    \node[label] (l1) at (1,-0.7) {$\mu_2$};
+    
+    \path[every node/.style={anchor=south}]
+     (0.5,1.3) edge[] (A)
+     (A) edge[edge_green] (D)
+     (B) edge[edge_green,bend right=50] (C.east)
+     (C) edge[edge_green,bend right=50] (B.west)     
+     (B) edge[edge_green] (D);
+  \end{tikzpicture}
+%   &
+%   \begin{tikzpicture}[->,semithick,>=stealth',scale=1.2]
+%     \tikzstyle{label}=[text=black] 
+%     \tikzstyle{node}=[draw=node_gray, circle, minimum size=2.0em, fill=none,text=black]
+%     \tikzstyle{up}=[style=node,text=black,text opacity=1,fill=node_green,draw=edge_green]
+%     \tikzstyle{dn}=[style=node,text=black,text opacity=1,fill=node_red,draw=edge_red]
+%     \tikzstyle{zn}=[style=node,text=black,text opacity=1,fill=node_blue,draw=edge_blue]
+% 
+%     \node[up] (A) at (0.5,1)    {$a$};
+%     \node[up] (B) at (1.5,1)    {$c$};
+%     \node[up] (C) at (1.5,1.75) {$b$};
+%     \node[up,thick] (D) at (1,0)      {$d$};
+%     \node[label] (l1) at (1,-0.7) {$\mu_4$};
+%     
+%     \path[every node/.style={anchor=south}]
+%      (0.5,1.3) edge[] (A)
+%      (A) edge[edge_green] (D)
+%      (B) edge[edge_green,bend right=50] (C.east)
+%      (C) edge[edge_green,bend right=50] (B.west)     
+%      (B) edge[edge_green] (D);
+%   \end{tikzpicture}
+  \end{tabular}  
+  \caption{Example for an influence graph with self regulation. An increase in $d$ can be 
+   explained either by self activation in $b$ and $c$ or by the input node $a$.}
+  \label{fig:founded}
+\end{figure} 
+
+To filter labelings which represent circular explanations we introduce the following consistency rule.
+  
+\begin{srule}\label{rule_founded}{\bf (a change must be founded in an input).}
+Let $(V,E,\sigma)$ be an IG and $I \subseteq V$ the input nodes.
+Then a labeling $\mu : V \rightarrow \{\plus,\minus,0\}$ satisfies Rule~\ref{rule_founded} for $i \in V$ if
+ \begin{itemize}
+  \item $i \in I$, or
+  \item $\mu(i)=0$, or
+  \item there exist a path $(v_0,\dots,v_k)$ in $E$ with $v_0 \in I$, $v_k=i$ and
+ $\mu(v_{n-1})\sigma(v_{n-1},v_n)=\mu(v_{n})$ for all $n=1\dots k$.
+ \end{itemize}
+\end{srule}
+
+Using Rule~\ref{rule_founded} we can avoid manual removal of positive
+ feedback loops as done in other approaches, and identify state transitions which can be explained by external perturbations.
+Only the labeling $\mu_2$ satisfies Rule~\ref{rule_founded}.
+Consistency rule~\ref{rule_founded} is especially useful if we want apply sign consistency methods in the context of perturbation experiments.
+When we are actually interested in the response to perturbations,
+or if we want to identify possible perturbations that trigger desired state transitions.
+
+\section*{Conclusion}
+
+This part introduced a consistency rule that allows us to exclude unfounded self regulations.
+In the next part I will show how we can relate our model to actual measurement data via sign constraints.

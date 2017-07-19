@@ -1,0 +1,450 @@
+In the previous parts we covered inputs and how we can reason on perturbations of the system.
+In this part we will see how we can relate actual experimental measurements to our model.
+
+\section*{Suitable experiments}
+
+First, we have to clarify what kind of measurements can be used for our approach and the sign consistency rules we apply.
+Because the sign consistency methods reasons over the changes between states,
+ we need the measurements of at least two states.
+% This means we deal with at least two measurements a reference experiment and an operating experiment.
+Further, the measured system states have to be compatible with the sign consistency rules that we want to apply.
+For example, Rule~1 reasons over steady state changes. 
+This means, if we want to use Rule~1 we have to ensure that the measured states are steady states.
+There exist other sign consistency rules that work under different assumptions and reason over transitional states or early responses of the system,
+ in any case it must always be ensured that the measured changes satisfy the assumptions.
+
+ 
+\section*{Discretization} 
+
+If the experimental data satisfies our assumptions, we can discretize the data and compute sign constraints.
+For measured variables $v \in V$,
+ we compute the difference between the values measured in a reference state and an operational state $obs(v) = (v_R - v_O)$.
+The result is a value in $\mathbb{R}$. 
+Depending on four thresholds $t_1 \leq t_2 < 0 < t_3 \leq t_4$, that should be defined on a case by case basis,
+ we can use the quantitative change to define five deiscrete observation types.
+As illustrated in Figure~\ref{fig:sign_discretization}, 
+these thresholds define a (partial) mapping $\nu: V \rightarrow \{ \minus, \uncertaindecrease, 0, \uncertainincrease, \plus \}$ as follows:
+\[
+\nu(s)=\left \{
+\begin{array}{lll}
+    \minus              & |\quad        & obs(s) \leq t_1, \\  
+    \uncertaindecrease  & |\quad t_1 <  & obs(s) \leq t_2,\\
+    0                   & |\quad t_2 <  & obs(s) < t_3, \\
+    \uncertainincrease  & |\quad t_3 \leq & obs(s) < t_4,\\
+    \plus               & |\quad t_4 \leq & obs(s) \\
+    \bot                & |\quad else.
+\end{array} \right . 
+\]
+%
+  \begin{figure}[h!]
+  \centering
+  \input{figures/fig_discretization.tikz.tex}
+  \caption{Discretization of observed changes into sign constraints.}
+  \label{fig:sign_discretization}
+  \end{figure} 
+
+We consider measurements which are smaller than $t_1$, bigger than $t_4$, and between $t_2$ and $t_3$
+ as certain (decrease \minus, increase \plus, no-change 0)
+ while measurements that are between $t_1$ and $t_2$ (resp. $t_3$ and $t_4$) are uncertain
+ (uncertain-decrease $\uncertaindecrease$, uncertain-increase $\uncertainincrease$) and not exactly classifiable. 
+
+\section*{Consistency checking model wrt. observed changes}
+ 
+Given an IG $(V,E,\sigma)$ 
+ and observed changes $\nu$ 
+ we can define the rules that restrict the possible sign labelings of the IG model s.t. they reflect the observed behavior.
+% For this purpose we look for labelings $\mu: V \rightarrow \{ \minus, 0, \plus \}$ 
+% that satisfy the rules defined below.
+It is important to notice that we are looking for labelings $\mu_i: V \rightarrow \{ \minus, 0, \plus \}$
+ using the \emph{three} sign labels $\{\minus,0,\plus\}$
+ whereas $\nu$ defines an observation labeling
+ based on the \emph{five} observation labels  $\{ \minus, \uncertaindecrease, 0, \uncertainincrease, \plus \}$
+ representing the discretized measurements.
+
+\begin{srule}\label{def:constraint_obs}{\bf (satisfy observations)}
+Every observed change must be consistent with the labeling.
+
+Let $(V,E,\sigma)$ be an IG, $\nu$ an observation labeling $\nu: V \rightarrow \{ \minus, \uncertaindecrease, 0, \uncertainincrease, \plus \}$
+ representing observed changes in the system.
+Then a labeling $\mu : V \rightarrow \{\plus,\minus,0\}$ satisfies Rule~\ref{def:constraint_obs} for node $i\in V$
+ iff
+ \begin{itemize}
+  \item $\mu(i)=\plus$ and $\nu(i)\in \{ \plus, \uncertainincrease \}$, or
+  \item $\mu(i)=0$ and $\nu(i)\in \{ \uncertainincrease, 0, \uncertaindecrease\}$, or
+  \item $\mu(i)=\minus$ and $\nu(i) \in \{ \uncertaindecrease, \minus \}$, or
+  \item $\nu(i)= \bot$.  
+ \end{itemize}
+
+\end{srule}
+%
+This rule ensures that a labeling is compatible with the measured changes.
+Note, uncertain measurements restrict the labeling of a node to two out of the three values $\{\plus, \minus, 0\}$,
+while measurements with high certainty fix a node's label to exactly one value.
+In Figure~\ref{fig:obs_label} we see a partial observations labeling and the corresponding sign labelings 
+ that satisfy Rule~\ref{def:constraint_obs}.
+Note that only the labeling $\mu_{11}$ satisfies Rule~1.
+This means using sign consistency we can use incomplete and uncertain measurent data to make predictions on the behavior of unobserved system variables.
+
+\begin{figure}
+\begin{tabular}{ccccc}%{p{70pt}p{60pt}p{60pt}p{60pt}p{60pt}}
+  \begin{tikzpicture}[->,semithick,>=stealth',scale=1.2]
+    \tikzstyle{node}=[draw=node_gray, circle, minimum size=2.0em, fill=none,text=black]
+    \tikzstyle{up}=[style=node,text=black,text opacity=1,fill=node_green,draw=edge_green]
+    \tikzstyle{dn}=[style=node,text=black,text opacity=1,fill=node_red,draw=edge_red]
+    \tikzstyle{zn}=[style=node,text=black,text opacity=1,fill=node_blue,draw=edge_blue]
+
+    \node[node] (a) at (0,0)        {\scriptsize $\plus$};
+    \node[node] (b) at (-0.0,-1.0)  {\scriptsize $\minus$};
+    \node[node] (c) at (0.8 ,-0.5)  {\scriptsize $0$};
+    \node[node] (d) at (-0.8,-0.5)  {$\uncertaindecrease$};
+    \node[node] (e) at (-0.8,-1.5)  {$\uncertainincrease$};
+    \node[node] (f) at (0.0,-2.0)   {$\bot$};
+    \node[]     (l) at (0,-2.7)     {$\nu$};
+    \path
+     (0.0,0.3) edge (a)
+     (a) edge[edge_red, -|] (b) 
+     (a) edge[edge_green] (c)
+     (a) edge[edge_green] (d)
+     (b) edge[edge_green] (c)
+     (b) edge[edge_green] (d)
+     (d) edge[edge_green] (e)
+     (e) edge[edge_red, -|,bend right=50] (f)
+     (f) edge[edge_red, -|,bend right=50] (e);
+  \end{tikzpicture}
+  &
+  \centering
+  \begin{tikzpicture}[->,semithick,>=stealth',scale=1.2]
+    \tikzstyle{node}=[draw=node_gray, circle, minimum size=2.0em, fill=none,text=black]
+    \tikzstyle{up}=[style=node,text=black,text opacity=1,fill=node_green,draw=edge_green]
+    \tikzstyle{dn}=[style=node,text=black,text opacity=1,fill=node_red,draw=edge_red]
+    \tikzstyle{zn}=[style=node,text=black,text opacity=1,fill=node_blue,draw=edge_blue]
+
+    \node[up] (a) at (0,0)        {\scriptsize $\plus$};
+    \node[dn] (b) at (-0.0,-1.0)  {\scriptsize $\minus$};
+    \node[zn] (c) at (0.8 ,-0.5)  {\scriptsize $0$};
+    \node[dn] (d) at (-0.8,-0.5)  {\scriptsize $\minus$};
+    \node[zn] (e) at (-0.8,-1.5)  {\scriptsize $0$};
+    \node[dn] (f) at (0.0,-2.0)   {\scriptsize $\minus$};
+    \node[]     (l) at (0,-2.7)     {$\mu_1$};
+    \path
+     (0.0,0.3) edge (a)
+     (a) edge[edge_red, -|] (b) 
+     (a) edge[edge_green] (c)
+     (a) edge[edge_green] (d)
+     (b) edge[edge_green] (c)
+     (b) edge[edge_green] (d)
+     (d) edge[edge_green] (e)
+     (e) edge[edge_red, -|,bend right=50] (f)
+     (f) edge[edge_red, -|,bend right=50] (e);
+  \end{tikzpicture}
+  &
+  \centering
+  \begin{tikzpicture}[->,semithick,>=stealth',scale=1.2]
+    \tikzstyle{node}=[draw=node_gray, circle, minimum size=2.0em, fill=none,text=black]
+    \tikzstyle{up}=[style=node,text=black,text opacity=1,fill=node_green,draw=edge_green]
+    \tikzstyle{dn}=[style=node,text=black,text opacity=1,fill=node_red,draw=edge_red]
+    \tikzstyle{zn}=[style=node,text=black,text opacity=1,fill=node_blue,draw=edge_blue]
+
+    \node[up] (a) at (0,0)        {\scriptsize $\plus$};
+    \node[dn] (b) at (-0.0,-1.0)  {\scriptsize $\minus$};
+    \node[zn] (c) at (0.8 ,-0.5)  {\scriptsize $0$};
+    \node[zn] (d) at (-0.8,-0.5)  {\scriptsize $0$};
+    \node[zn] (e) at (-0.8,-1.5)  {\scriptsize $0$};
+    \node[dn] (f) at (0.0,-2.0)   {\scriptsize $\minus$};
+    \node[]     (l) at (0,-2.7)     {$\mu_1$};
+    \path
+     (0.0,0.3) edge (a)
+     (a) edge[edge_red, -|] (b) 
+     (a) edge[edge_green] (c)
+     (a) edge[edge_green] (d)
+     (b) edge[edge_green] (c)
+     (b) edge[edge_green] (d)
+     (d) edge[edge_green] (e)
+     (e) edge[edge_red, -|,bend right=50] (f)
+     (f) edge[edge_red, -|,bend right=50] (e);
+  \end{tikzpicture}
+  &
+  \centering
+  \begin{tikzpicture}[->,semithick,>=stealth',scale=1.2]
+    \tikzstyle{node}=[draw=node_gray, circle, minimum size=2.0em, fill=none,text=black]
+    \tikzstyle{up}=[style=node,text=black,text opacity=1,fill=node_green,draw=edge_green]
+    \tikzstyle{dn}=[style=node,text=black,text opacity=1,fill=node_red,draw=edge_red]
+    \tikzstyle{zn}=[style=node,text=black,text opacity=1,fill=node_blue,draw=edge_blue]
+
+    \node[up] (a) at (0,0)        {\scriptsize $\plus$};
+    \node[dn] (b) at (-0.0,-1.0)  {\scriptsize $\minus$};
+    \node[zn] (c) at (0.8 ,-0.5)  {\scriptsize $0$};
+    \node[dn] (d) at (-0.8,-0.5)  {\scriptsize $\minus$};
+    \node[up] (e) at (-0.8,-1.5)  {\scriptsize $\plus$};
+    \node[dn] (f) at (0.0,-2.0)   {\scriptsize $\minus$};
+    \node[]     (l) at (0,-2.7)     {$\mu_1$};
+    \path
+     (0.0,0.3) edge (a)
+     (a) edge[edge_red, -|] (b) 
+     (a) edge[edge_green] (c)
+     (a) edge[edge_green] (d)
+     (b) edge[edge_green] (c)
+     (b) edge[edge_green] (d)
+     (d) edge[edge_green] (e)
+     (e) edge[edge_red, -|,bend right=50] (f)
+     (f) edge[edge_red, -|,bend right=50] (e);
+  \end{tikzpicture}
+  &
+  \centering
+  \begin{tikzpicture}[->,semithick,>=stealth',scale=1.2]
+    \tikzstyle{node}=[draw=node_gray, circle, minimum size=2.0em, fill=none,text=black]
+    \tikzstyle{up}=[style=node,text=black,text opacity=1,fill=node_green,draw=edge_green]
+    \tikzstyle{dn}=[style=node,text=black,text opacity=1,fill=node_red,draw=edge_red]
+    \tikzstyle{zn}=[style=node,text=black,text opacity=1,fill=node_blue,draw=edge_blue]
+
+    \node[up] (a) at (0,0)        {\scriptsize $\plus$};
+    \node[dn] (b) at (-0.0,-1.0)  {\scriptsize $\minus$};
+    \node[zn] (c) at (0.8 ,-0.5)  {\scriptsize $0$};
+    \node[zn] (d) at (-0.8,-0.5)  {\scriptsize $0$};
+    \node[up] (e) at (-0.8,-1.5)  {\scriptsize $\plus$};
+    \node[dn] (f) at (0.0,-2.0)   {\scriptsize $\minus$};
+    \node[]     (l) at (0,-2.7)     {$\mu_1$};
+    \path
+     (0.0,0.3) edge (a)
+     (a) edge[edge_red, -|] (b) 
+     (a) edge[edge_green] (c)
+     (a) edge[edge_green] (d)
+     (b) edge[edge_green] (c)
+     (b) edge[edge_green] (d)
+     (d) edge[edge_green] (e)
+     (e) edge[edge_red, -|,bend right=50] (f)
+     (f) edge[edge_red, -|,bend right=50] (e);
+  \end{tikzpicture}
+  \cr &
+  \\
+  ~ &
+  \centering
+  \centering
+  \begin{tikzpicture}[->,semithick,>=stealth',scale=1.2]
+    \tikzstyle{node}=[draw=node_gray, circle, minimum size=2.0em, fill=none,text=black]
+    \tikzstyle{up}=[style=node,text=black,text opacity=1,fill=node_green,draw=edge_green]
+    \tikzstyle{dn}=[style=node,text=black,text opacity=1,fill=node_red,draw=edge_red]
+    \tikzstyle{zn}=[style=node,text=black,text opacity=1,fill=node_blue,draw=edge_blue]
+
+    \node[up] (a) at (0,0)        {\scriptsize $\plus$};
+    \node[dn] (b) at (-0.0,-1.0)  {\scriptsize $\minus$};
+    \node[zn] (c) at (0.8 ,-0.5)  {\scriptsize $0$};
+    \node[dn] (d) at (-0.8,-0.5)  {\scriptsize $\minus$};
+    \node[zn] (e) at (-0.8,-1.5)  {\scriptsize $0$};
+    \node[zn] (f) at (0.0,-2.0)   {\scriptsize $0$};
+    \node[]     (l) at (0,-2.7)     {$\mu_1$};
+    \path
+     (0.0,0.3) edge (a)
+     (a) edge[edge_red, -|] (b) 
+     (a) edge[edge_green] (c)
+     (a) edge[edge_green] (d)
+     (b) edge[edge_green] (c)
+     (b) edge[edge_green] (d)
+     (d) edge[edge_green] (e)
+     (e) edge[edge_red, -|,bend right=50] (f)
+     (f) edge[edge_red, -|,bend right=50] (e);
+  \end{tikzpicture}
+  &
+  \centering
+  \begin{tikzpicture}[->,semithick,>=stealth',scale=1.2]
+    \tikzstyle{node}=[draw=node_gray, circle, minimum size=2.0em, fill=none,text=black]
+    \tikzstyle{up}=[style=node,text=black,text opacity=1,fill=node_green,draw=edge_green]
+    \tikzstyle{dn}=[style=node,text=black,text opacity=1,fill=node_red,draw=edge_red]
+    \tikzstyle{zn}=[style=node,text=black,text opacity=1,fill=node_blue,draw=edge_blue]
+
+    \node[up] (a) at (0,0)        {\scriptsize $\plus$};
+    \node[dn] (b) at (-0.0,-1.0)  {\scriptsize $\minus$};
+    \node[zn] (c) at (0.8 ,-0.5)  {\scriptsize $0$};
+    \node[zn] (d) at (-0.8,-0.5)  {\scriptsize $0$};
+    \node[zn] (e) at (-0.8,-1.5)  {\scriptsize $0$};
+    \node[zn] (f) at (0.0,-2.0)   {\scriptsize $0$};
+    \node[]     (l) at (0,-2.7)     {$\mu_1$};
+    \path
+     (0.0,0.3) edge (a)
+     (a) edge[edge_red, -|] (b) 
+     (a) edge[edge_green] (c)
+     (a) edge[edge_green] (d)
+     (b) edge[edge_green] (c)
+     (b) edge[edge_green] (d)
+     (d) edge[edge_green] (e)
+     (e) edge[edge_red, -|,bend right=50] (f)
+     (f) edge[edge_red, -|,bend right=50] (e);
+  \end{tikzpicture}
+  &
+  \centering
+  \begin{tikzpicture}[->,semithick,>=stealth',scale=1.2]
+    \tikzstyle{node}=[draw=node_gray, circle, minimum size=2.0em, fill=none,text=black]
+    \tikzstyle{up}=[style=node,text=black,text opacity=1,fill=node_green,draw=edge_green]
+    \tikzstyle{dn}=[style=node,text=black,text opacity=1,fill=node_red,draw=edge_red]
+    \tikzstyle{zn}=[style=node,text=black,text opacity=1,fill=node_blue,draw=edge_blue]
+
+    \node[up] (a) at (0,0)        {\scriptsize $\plus$};
+    \node[dn] (b) at (-0.0,-1.0)  {\scriptsize $\minus$};
+    \node[zn] (c) at (0.8 ,-0.5)  {\scriptsize $0$};
+    \node[dn] (d) at (-0.8,-0.5)  {\scriptsize $\minus$};
+    \node[up] (e) at (-0.8,-1.5)  {\scriptsize $\plus$};
+    \node[zn] (f) at (0.0,-2.0)   {\scriptsize $0$};
+    \node[]     (l) at (0,-2.7)     {$\mu_1$};
+    \path
+     (0.0,0.3) edge (a)
+     (a) edge[edge_red, -|] (b) 
+     (a) edge[edge_green] (c)
+     (a) edge[edge_green] (d)
+     (b) edge[edge_green] (c)
+     (b) edge[edge_green] (d)
+     (d) edge[edge_green] (e)
+     (e) edge[edge_red, -|,bend right=50] (f)
+     (f) edge[edge_red, -|,bend right=50] (e);
+  \end{tikzpicture}
+  &
+  \centering
+  \begin{tikzpicture}[->,semithick,>=stealth',scale=1.2]
+    \tikzstyle{node}=[draw=node_gray, circle, minimum size=2.0em, fill=none,text=black]
+    \tikzstyle{up}=[style=node,text=black,text opacity=1,fill=node_green,draw=edge_green]
+    \tikzstyle{dn}=[style=node,text=black,text opacity=1,fill=node_red,draw=edge_red]
+    \tikzstyle{zn}=[style=node,text=black,text opacity=1,fill=node_blue,draw=edge_blue]
+
+    \node[up] (a) at (0,0)        {\scriptsize $\plus$};
+    \node[dn] (b) at (-0.0,-1.0)  {\scriptsize $\minus$};
+    \node[zn] (c) at (0.8 ,-0.5)  {\scriptsize $0$};
+    \node[zn] (d) at (-0.8,-0.5)  {\scriptsize $0$};
+    \node[up] (e) at (-0.8,-1.5)  {\scriptsize $\plus$};
+    \node[zn] (f) at (0.0,-2.0)   {\scriptsize $0$};
+    \node[]     (l) at (0,-2.7)     {$\mu_1$};
+    \path
+     (0.0,0.3) edge (a)
+     (a) edge[edge_red, -|] (b) 
+     (a) edge[edge_green] (c)
+     (a) edge[edge_green] (d)
+     (b) edge[edge_green] (c)
+     (b) edge[edge_green] (d)
+     (d) edge[edge_green] (e)
+     (e) edge[edge_red, -|,bend right=50] (f)
+     (f) edge[edge_red, -|,bend right=50] (e);
+  \end{tikzpicture}
+  \cr &
+  \\
+   ~ &
+  \centering
+  \centering
+  \begin{tikzpicture}[->,semithick,>=stealth',scale=1.2]
+    \tikzstyle{node}=[draw=node_gray, circle, minimum size=2.0em, fill=none,text=black]
+    \tikzstyle{up}=[style=node,text=black,text opacity=1,fill=node_green,draw=edge_green]
+    \tikzstyle{dn}=[style=node,text=black,text opacity=1,fill=node_red,draw=edge_red]
+    \tikzstyle{zn}=[style=node,text=black,text opacity=1,fill=node_blue,draw=edge_blue]
+
+    \node[up] (a) at (0,0)        {\scriptsize $\plus$};
+    \node[dn] (b) at (-0.0,-1.0)  {\scriptsize $\minus$};
+    \node[zn] (c) at (0.8 ,-0.5)  {\scriptsize $0$};
+    \node[dn] (d) at (-0.8,-0.5)  {\scriptsize $\minus$};
+    \node[zn] (e) at (-0.8,-1.5)  {\scriptsize $0$};
+    \node[up] (f) at (0.0,-2.0)   {\scriptsize $\plus$};
+    \node[]     (l) at (0,-2.7)     {$\mu_1$};
+    \path
+     (0.0,0.3) edge (a)
+     (a) edge[edge_red, -|] (b) 
+     (a) edge[edge_green] (c)
+     (a) edge[edge_green] (d)
+     (b) edge[edge_green] (c)
+     (b) edge[edge_green] (d)
+     (d) edge[edge_green] (e)
+     (e) edge[edge_red, -|,bend right=50] (f)
+     (f) edge[edge_red, -|,bend right=50] (e);
+  \end{tikzpicture}
+  &
+  \centering
+  \begin{tikzpicture}[->,semithick,>=stealth',scale=1.2]
+    \tikzstyle{node}=[draw=node_gray, circle, minimum size=2.0em, fill=none,text=black]
+    \tikzstyle{up}=[style=node,text=black,text opacity=1,fill=node_green,draw=edge_green]
+    \tikzstyle{dn}=[style=node,text=black,text opacity=1,fill=node_red,draw=edge_red]
+    \tikzstyle{zn}=[style=node,text=black,text opacity=1,fill=node_blue,draw=edge_blue]
+
+    \node[up] (a) at (0,0)        {\scriptsize $\plus$};
+    \node[dn] (b) at (-0.0,-1.0)  {\scriptsize $\minus$};
+    \node[zn] (c) at (0.8 ,-0.5)  {\scriptsize $0$};
+    \node[zn] (d) at (-0.8,-0.5)  {\scriptsize $0$};
+    \node[zn] (e) at (-0.8,-1.5)  {\scriptsize $0$};
+    \node[up] (f) at (0.0,-2.0)   {\scriptsize $\plus$};
+    \node[]     (l) at (0,-2.7)     {$\mu_1$};
+    \path
+     (0.0,0.3) edge (a)
+     (a) edge[edge_red, -|] (b) 
+     (a) edge[edge_green] (c)
+     (a) edge[edge_green] (d)
+     (b) edge[edge_green] (c)
+     (b) edge[edge_green] (d)
+     (d) edge[edge_green] (e)
+     (e) edge[edge_red, -|,bend right=50] (f)
+     (f) edge[edge_red, -|,bend right=50] (e);
+  \end{tikzpicture}
+  &
+  \centering
+  \begin{tikzpicture}[->,semithick,>=stealth',scale=1.2]
+    \tikzstyle{node}=[draw=node_gray, circle, minimum size=2.0em, fill=none,text=black]
+    \tikzstyle{up}=[style=node,text=black,text opacity=1,fill=node_green,draw=edge_green]
+    \tikzstyle{dn}=[style=node,text=black,text opacity=1,fill=node_red,draw=edge_red]
+    \tikzstyle{zn}=[style=node,text=black,text opacity=1,fill=node_blue,draw=edge_blue]
+
+    \node[up] (a) at (0,0)        {\scriptsize $\plus$};
+    \node[dn] (b) at (-0.0,-1.0)  {\scriptsize $\minus$};
+    \node[zn] (c) at (0.8 ,-0.5)  {\scriptsize $0$};
+    \node[dn] (d) at (-0.8,-0.5)  {\scriptsize $\minus$};
+    \node[up] (e) at (-0.8,-1.5)  {\scriptsize $\plus$};
+    \node[up] (f) at (0.0,-2.0)   {\scriptsize $\plus$};
+    \node[]     (l) at (0,-2.7)     {$\mu_1$};
+    \path
+     (0.0,0.3) edge (a)
+     (a) edge[edge_red, -|] (b) 
+     (a) edge[edge_green] (c)
+     (a) edge[edge_green] (d)
+     (b) edge[edge_green] (c)
+     (b) edge[edge_green] (d)
+     (d) edge[edge_green] (e)
+     (e) edge[edge_red, -|,bend right=50] (f)
+     (f) edge[edge_red, -|,bend right=50] (e);
+  \end{tikzpicture}
+  &
+  \centering
+  \begin{tikzpicture}[->,semithick,>=stealth',scale=1.2]
+    \tikzstyle{node}=[draw=node_gray, circle, minimum size=2.0em, fill=none,text=black]
+    \tikzstyle{up}=[style=node,text=black,text opacity=1,fill=node_green,draw=edge_green]
+    \tikzstyle{dn}=[style=node,text=black,text opacity=1,fill=node_red,draw=edge_red]
+    \tikzstyle{zn}=[style=node,text=black,text opacity=1,fill=node_blue,draw=edge_blue]
+
+    \node[up] (a) at (0,0)        {\scriptsize $\plus$};
+    \node[dn] (b) at (-0.0,-1.0)  {\scriptsize $\minus$};
+    \node[zn] (c) at (0.8 ,-0.5)  {\scriptsize $0$};
+    \node[zn] (d) at (-0.8,-0.5)  {\scriptsize $0$};
+    \node[up] (e) at (-0.8,-1.5)  {\scriptsize $\plus$};
+    \node[up] (f) at (0.0,-2.0)   {\scriptsize $\plus$};
+    \node[]     (l) at (0,-2.7)     {$\mu_1$};
+    \path
+     (0.0,0.3) edge (a)
+     (a) edge[edge_red, -|] (b) 
+     (a) edge[edge_green] (c)
+     (a) edge[edge_green] (d)
+     (b) edge[edge_green] (c)
+     (b) edge[edge_green] (d)
+     (d) edge[edge_green] (e)
+     (e) edge[edge_red, -|,bend right=50] (f)
+     (f) edge[edge_red, -|,bend right=50] (e);
+  \end{tikzpicture}
+\end{tabular}
+  \caption{A labeling $\nu$ of observed changes and the corresponding sign labelings $\mu_i$ satisfying Rule~\ref{def:constraint_obs}.}
+  \label{fig:obs_label}
+\end{figure}
+
+If for a given IG and a set of observed changes $\nu$ there exist no sign labeling that satisfies Rule~\ref{def:constraint_obs} then
+the model is not able to explain the observed behavior. 
+In other words either the model or the measurements are faulty.
+In this case we can apply a variety of repair methods can be applied to repair model or data.
+These methods will be explain in detail following parts.
+
+
+
+\section*{Conclusion}
+In this part I explained which kind of experimental measurements can be used in combination with sign consistency methods.
+I presented a method to discretize quantitative measurements into sign constraints, and
+ showed how one can handle incompleteness and uncertainty in measurements.
+In the next part I will introduce a new sign consistency rule that implements forward propagation to
+ increase the predictive power of sign consistency methods.

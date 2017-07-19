@@ -1,0 +1,13 @@
+To filter labelings which include secondary regulations over feedback loops we use the following consistency rule.
+  
+\begin{srule}\label{rule_elem}{\bf (a change must be founded in an input).}
+Every change must be explained via an elementary path to an input.
+Let $(V,E,\sigma)$ be an IG and $I \subseteq V$ the input nodes.
+Then a labeling $\mu : V \rightarrow \{\plus,\minus,0\}$ satisfies Rule~\ref{rule_elem} for $i \in V$ if
+ \begin{itemize}
+  \item $i \in I$, or
+  \item $\mu(i)=0$, or
+  \item there exist an elementary path $(v_0,\dots,v_k)$ in $E$ with $v_0 \in I$, $v_k=i$ and
+ $\mu(v_{n-1})\sigma(v_{n-1},v_n)=\mu(v_{n})$ for all $n=1\dots k$.
+ \end{itemize}
+\end{srule}

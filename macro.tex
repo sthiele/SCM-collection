@@ -1,0 +1,65 @@
+%asp def
+ 
+\newcommand{\naf}[1]{\ensuremath{\mathit{not}~{#1}}} 
+
+\newcommand{\head}[1]{\ensuremath{\mathit{head}(#1)}}
+\newcommand{\poslits}[1]{\ensuremath{#1^+}}
+\newcommand{\neglits}[1]{\ensuremath{#1^-}}
+\newcommand{\body}[1]{\ensuremath{\mathit{body}(#1)}} 
+
+%systems
+  \newcommand{\sysfont}[1]{\textit{#1}}
+  \newcommand{\clasp}[0]{\sysfont{clasp}}
+  \newcommand{\gringo}[0]{\sysfont{gringo}}
+  
+%signs  
+\newcommand\BS[1]{\text{\fontshape{n}\fontseries{bx}\selectfont#1}}
+\newcommand\plus{\BS{+}}
+\newcommand\minus{\BS{--}}
+
+\newcommand\uncertainincrease{\vartriangle}
+\newcommand\uncertaindecrease{\triangledown}
+
+\newcommand\weakplus{\boldsymbol{\oplus}}
+\newcommand\weakminus{\boldsymbol{\ominus}}
+
+%colors
+\definecolor{node_gray}{RGB}{100,100,100}
+\definecolor{node_green}{RGB}{170,230,170}
+\definecolor{edge_green}{RGB}{70,150,70}  
+\definecolor{node_red}{RGB}{230,170,170}   
+\definecolor{edge_red}{RGB}{230,100,100} 
+% \definecolor{node_blue}{RGB}{130,185,255} 
+\definecolor{node_blue}{RGB}{170,205,255} 
+\definecolor{edge_blue}{RGB}{100,125,255} 
+
+\definecolor{node_yell}{RGB}{250,190,70}  
+
+\definecolor{no_signal}{RGB}{255,240,235} 
+\definecolor{signal}{RGB}{235,255,240} 
+
+%def
+\newtheorem{srule}{Rule}
+
+\makeatletter
+\tikzset{circle split part fill/.style  args={#1,#2}{%
+ alias=tmp@name, % Jake's idea !!
+  postaction={%
+    insert path={
+     \pgfextra{% 
+     \pgfpointdiff{\pgfpointanchor{\pgf@node@name}{center}}%
+                  {\pgfpointanchor{\pgf@node@name}{east}}%            
+     \pgfmathsetmacro\insiderad{\pgf@x}
+      \fill[#1] (\pgf@node@name.base) ([xshift=-\pgflinewidth]\pgf@node@name.east) arc
+                          (0:180:\insiderad-\pgflinewidth)--cycle;
+      \fill[#2] (\pgf@node@name.base) ([xshift=\pgflinewidth]\pgf@node@name.west)  arc
+                           (180:360:\insiderad-\pgflinewidth)--cycle;            %  \end{scope}   
+         }}}}}  
+ \makeatother 
+ 
+ 
+%mixed node 
+%     \node[shape = circle split, draw=gray, 
+%           minimum size = 2em, inner sep = 0mm, font = \tiny,
+%           rotate=30, circle split part fill={node_blue,node_red}] (Start) at (3,3)
+%           { \rotatebox{-30}{$0$} \nodepart{lower} \rotatebox{-30}{$\plus$}}; 

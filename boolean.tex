@@ -1,0 +1,327 @@
+In this part we explain the relationship between Boolean Network models and sign consistency models.
+What do they have in common (same model structure) and 
+What is distinguishes them (solve different problems)?
+
+
+We see the corresponding Boolean representation of these states the regulation is modeled as an logic {\bf OR}.
+The Boolean logic allows us to reason about the signal flow in a state,
+ while the sign consistency methods reason about the change in the system when transitioning between states.
+ 
+ \begin{figure}
+\begin{tabular}{cccccc}
+ 1 & 2 & 3 & 4 & 5 & 6
+ \\
+%  \multicolumn{1} {l}{ \cellcolor{no_signal} quantitative } & \multicolumn{5} {l}{ \cellcolor{signal}  }
+ \\
+%   \cellcolor{no_signal}
+  \begin{tikzpicture}[->,semithick,>=stealth',scale=1.2]
+    \tikzstyle{node}=[draw=node_gray, circle, minimum size=2.0em, fill=none,text=black]
+    \tikzstyle{cone}=[draw=black, circle, minimum size=1.0em, fill=none,text=black]
+
+    \node[node] (a)  at (-0.5,0.8)  {\scriptsize $0$};
+    \node[node] (b)  at (0.5,0.8)   {\scriptsize $0$};
+    \node[cone] (op) at (0,0.2)     {};                 \node[] (l) at (0,0.2)  {\scriptsize $\boldsymbol{ \vee}$};    
+    \node[node] (c)  at (0,-0.5)    {\scriptsize $0$};
+    \path
+     (a) edge[] (op)
+     (b) edge[] (op)
+     (op) edge[] (c)
+     ;
+  \end{tikzpicture}
+ &
+%   \cellcolor{signal}
+  \begin{tikzpicture}[->,semithick,>=stealth',scale=1.2]
+    \tikzstyle{node}=[draw=node_gray, circle, minimum size=2.0em, fill=none,text=black]
+    \tikzstyle{cone}=[draw=black, circle, minimum size=1.0em, fill=none,text=black]
+
+    \node[node] (a)  at (-0.5,0.8)  {\scriptsize $0$};
+    \node[node] (b)  at (0.5,0.8)   {\scriptsize $5$};
+    \node[cone] (op) at (0,0.2)     {};                 \node[] (l) at (0,0.2)  {\scriptsize $\boldsymbol{ \vee}$};    
+    \node[node] (c)  at (0,-0.5)    {\scriptsize $5$};
+    \path
+     (a) edge[] (op)
+     (b) edge[] (op)
+     (op) edge[] (c)
+     ;
+  \end{tikzpicture}
+ &
+%   \cellcolor{signal}
+  \begin{tikzpicture}[->,semithick,>=stealth',scale=1.2]
+    \tikzstyle{node}=[draw=node_gray, circle, minimum size=2.0em, fill=none,text=black]
+    \tikzstyle{cone}=[draw=black, circle, minimum size=1.0em, fill=none,text=black]
+
+    \node[node] (a)  at (-0.5,0.8)  {\scriptsize $0$};
+    \node[node] (b)  at (0.5,0.8)   {\scriptsize $10$};
+    \node[cone] (op) at (0,0.2)     {};                 \node[] (l) at (0,0.2)  {\scriptsize $\boldsymbol{ \vee}$};    
+    \node[node] (c)  at (0,-0.5)    {\scriptsize $10$};
+    \path
+     (a) edge[] (op)
+     (b) edge[] (op)
+     (op) edge[] (c)
+     ;
+  \end{tikzpicture}
+ &
+%   \cellcolor{signal}
+  \begin{tikzpicture}[->,semithick,>=stealth',scale=1.2]
+    \tikzstyle{node}=[draw=node_gray, circle, minimum size=2.0em, fill=none,text=black]
+    \tikzstyle{cone}=[draw=black, circle, minimum size=1.0em, fill=none,text=black]
+
+    \node[node] (a)  at (-0.5,0.8)  {\scriptsize $5$};
+    \node[node] (b)  at (0.5,0.8)   {\scriptsize $5$};
+    \node[cone] (op) at (0,0.2)     {};                 \node[] (l) at (0,0.2)  {\scriptsize $\boldsymbol{ \vee}$};    
+    \node[node] (c)  at (0,-0.5)    {\scriptsize $10$};
+    \path
+     (a) edge[] (op)
+     (b) edge[] (op)
+     (op) edge[] (c)
+     ;
+  \end{tikzpicture}
+ &
+%   \cellcolor{signal}
+  \begin{tikzpicture}[->,semithick,>=stealth',scale=1.2]
+    \tikzstyle{node}=[draw=node_gray, circle, minimum size=2.0em, fill=none,text=black]
+    \tikzstyle{cone}=[draw=black, circle, minimum size=1.0em, fill=none,text=black]
+
+    \node[node] (a)  at (-0.5,0.8)  {\scriptsize $5$};
+    \node[node] (b)  at (0.5,0.8)   {\scriptsize $10$};
+    \node[cone] (op) at (0,0.2)     {};                 \node[] (l) at (0,0.2)  {\scriptsize $\boldsymbol{ \vee}$};    
+    \node[node] (c)  at (0,-0.5)    {\scriptsize $15$};
+    \path
+     (a) edge[] (op)
+     (b) edge[] (op)
+     (op) edge[] (c)
+     ;
+  \end{tikzpicture}
+ &
+%   \cellcolor{signal}
+  \begin{tikzpicture}[->,semithick,>=stealth',scale=1.2]
+    \tikzstyle{node}=[draw=node_gray, circle, minimum size=2.0em, fill=none,text=black]
+    \tikzstyle{cone}=[draw=black, circle, minimum size=1.0em, fill=none,text=black]
+
+    \node[node] (a)  at (-0.5,0.8)  {\scriptsize $10$};
+    \node[node] (b)  at (0.5,0.8)   {\scriptsize $10$};
+    \node[cone] (op) at (0,0.2)     {};                 \node[] (l) at (0,0.2)  {\scriptsize $\boldsymbol{ \vee}$};    
+    \node[node] (c)  at (0,-0.5)    {\scriptsize $20$};
+    \path
+     (a) edge[] (op)
+     (b) edge[] (op)
+     (op) edge[] (c)
+     ;
+  \end{tikzpicture}
+ \\
+ \hline
+ \multicolumn{1} {l}{ \cellcolor{no_signal} boolean } & \multicolumn{5} {l}{ \cellcolor{signal}  }
+ \\
+  \cellcolor{no_signal}
+  \begin{tikzpicture}[->,semithick,>=stealth',scale=1.2]
+    \tikzstyle{node}=[draw=node_gray, circle, minimum size=2.0em, fill=none,text=black]
+    \tikzstyle{cone}=[draw=black, circle, minimum size=1.0em, fill=none,text=black]
+
+    \node[node] (a)  at (-0.5,0.8)  {\scriptsize $0$};
+    \node[node] (b)  at (0.5,0.8)   {\scriptsize $0$};
+    \node[cone] (op) at (0,0.2)     {};                 \node[] (l) at (0,0.2)  {\scriptsize $\boldsymbol{ \vee}$};    
+    \node[node] (c)  at (0,-0.5)    {\scriptsize $0$};
+    \path
+     (a) edge[] (op)
+     (b) edge[] (op)
+     (op) edge[] (c)
+     ;
+  \end{tikzpicture}
+ &\multicolumn{2} {c}{
+  \cellcolor{signal}
+  \begin{tikzpicture}[->,semithick,>=stealth',scale=1.2]
+    \tikzstyle{node}=[draw=node_gray, circle, minimum size=2.0em, fill=none,text=black]
+    \tikzstyle{cone}=[draw=black, circle, minimum size=1.0em, fill=none,text=black]
+
+    \node[node] (a)  at (-0.5,0.8)  {\scriptsize $0$};
+    \node[node] (b)  at (0.5,0.8)   {\scriptsize $1$};
+    \node[cone] (op) at (0,0.2)     {};                 \node[] (l) at (0,0.2)  {\scriptsize $\boldsymbol{ \vee}$};    
+    \node[node] (c)  at (0,-0.5)    {\scriptsize $1$};
+    \path
+     (a) edge[] (op)
+     (b) edge[] (op)
+     (op) edge[] (c)
+     ;
+  \end{tikzpicture}
+ }
+ &\multicolumn{3} {c}{
+  \cellcolor{signal}
+  \begin{tikzpicture}[->,semithick,>=stealth',scale=1.2]
+    \tikzstyle{node}=[draw=node_gray, circle, minimum size=2.0em, fill=none,text=black]
+    \tikzstyle{cone}=[draw=black, circle, minimum size=1.0em, fill=none,text=black]
+
+    \node[node] (a)  at (-0.5,0.8)  {\scriptsize $1$};
+    \node[node] (b)  at (0.5,0.8)   {\scriptsize $1$};
+    \node[cone] (op) at (0,0.2)     {};                 \node[] (l) at (0,0.2)  {\scriptsize $\boldsymbol{ \vee}$};    
+    \node[node] (c)  at (0,-0.5)    {\scriptsize $1$};
+    \path
+     (a) edge[] (op)
+     (b) edge[] (op)
+     (op) edge[] (c)
+     ;
+  \end{tikzpicture}
+  }
+\end{tabular}
+\caption{Different state of a independently regulated system, quantitative and Boolean representation.}
+\label{or_states}
+\end{figure}
+
+
+
+
+
+
+\begin{figure}
+\begin{tabular}{cccccc}
+ 1 & 2 & 3 & 4 & 5 & 6\\
+ \multicolumn{3} {l}{ \cellcolor{no_signal} quantitative } & \multicolumn{3} {l}{ \cellcolor{signal}  }\\
+  \cellcolor{no_signal}
+  \begin{tikzpicture}[->,semithick,>=stealth',scale=1.2]
+    \tikzstyle{node}=[draw=node_gray, circle, minimum size=2.0em, fill=none,text=black]
+    \tikzstyle{cone}=[draw=black, circle, minimum size=1.0em, fill=none,text=black]
+
+    \node[node] (a)  at (-0.5,0.8)  {\scriptsize $0$};
+    \node[node] (b)  at (0.5,0.8)   {\scriptsize $0$};
+    \node[cone] (op) at (0,0.2)     {};                 \node[] (l) at (0,0.2)  {\scriptsize $\boldsymbol{ \wedge}$};
+    \node[node] (c)  at (0,-0.5)    {\scriptsize $0$};
+    \path
+     (a) edge[] (op)
+     (b) edge[] (op)
+     (op) edge[] (c)
+     ;
+  \end{tikzpicture}
+ &  
+  \cellcolor{no_signal}
+  \begin{tikzpicture}[->,semithick,>=stealth',scale=1.2]
+    \tikzstyle{node}=[draw=node_gray, circle, minimum size=2.0em, fill=none,text=black]
+    \tikzstyle{cone}=[draw=black, circle, minimum size=1.0em, fill=none,text=black]
+
+    \node[node] (a)  at (-0.5,0.8)  {\scriptsize $0$};
+    \node[node] (b)  at (0.5,0.8)   {\scriptsize $5$};
+    \node[cone] (op) at (0,0.2)     {};                 \node[] (l) at (0,0.2)  {\scriptsize $\boldsymbol{ \wedge}$};    
+    \node[node] (c)  at (0,-0.5)    {\scriptsize $0$};
+    \path
+     (a) edge[] (op)
+     (b) edge[] (op)
+     (op) edge[] (c)
+     ;
+  \end{tikzpicture}
+ &
+   \cellcolor{no_signal}
+   \begin{tikzpicture}[->,semithick,>=stealth',scale=1.2]
+    \tikzstyle{node}=[draw=node_gray, circle, minimum size=2.0em, fill=none,text=black]
+    \tikzstyle{cone}=[draw=black, circle, minimum size=1.0em, fill=none,text=black]
+
+    \node[node] (a)  at (-0.5,0.8)  {\scriptsize $0$};
+    \node[node] (b)  at (0.5,0.8)   {\scriptsize $10$};
+    \node[cone] (op) at (0,0.2)     {};                 \node[] (l) at (0,0.2)  {\scriptsize $\boldsymbol{ \wedge}$};    
+    \node[node] (c)  at (0,-0.5)    {\scriptsize $0$};
+    \path
+     (a) edge[] (op)
+     (b) edge[] (op)
+     (op) edge[] (c)
+     ;
+  \end{tikzpicture}
+ &
+  \cellcolor{signal}
+  \begin{tikzpicture}[->,semithick,>=stealth',scale=1.2]
+    \tikzstyle{node}=[draw=node_gray, circle, minimum size=2.0em, fill=none,text=black]
+    \tikzstyle{cone}=[draw=black, circle, minimum size=1.0em, fill=none,text=black]
+
+    \node[node] (a)  at (-0.5,0.8)  {\scriptsize $5$};
+    \node[node] (b)  at (0.5,0.8)   {\scriptsize $5$};
+    \node[cone] (op) at (0,0.2)     {};                 \node[] (l) at (0,0.2)  {\scriptsize $\boldsymbol{ \wedge}$};    
+    \node[node] (c)  at (0,-0.5)    {\scriptsize $5$};
+    \path
+     (a) edge[] (op)
+     (b) edge[] (op)
+     (op) edge[] (c)
+     ;
+  \end{tikzpicture}
+ &
+  \cellcolor{signal}
+  \begin{tikzpicture}[->,semithick,>=stealth',scale=1.2]
+    \tikzstyle{node}=[draw=node_gray, circle, minimum size=2.0em, fill=none,text=black]
+    \tikzstyle{cone}=[draw=black, circle, minimum size=1.0em, fill=none,text=black]
+
+    \node[node] (a)  at (-0.5,0.8)  {\scriptsize $5$};
+    \node[node] (b)  at (0.5,0.8)   {\scriptsize $10$};
+    \node[cone] (op) at (0,0.2)     {};                 \node[] (l) at (0,0.2)  {\scriptsize $\boldsymbol{ \wedge}$};    
+    \node[node] (c)  at (0,-0.5)    {\scriptsize $5$};
+    \path
+     (a) edge[] (op)
+     (b) edge[] (op)
+     (op) edge[] (c)
+     ;
+  \end{tikzpicture}
+ &
+  \cellcolor{signal}
+  \begin{tikzpicture}[->,semithick,>=stealth',scale=1.2]
+    \tikzstyle{node}=[draw=node_gray, circle, minimum size=2.0em, fill=none,text=black]
+    \tikzstyle{cone}=[draw=black, circle, minimum size=1.0em, fill=none,text=black]
+
+    \node[node] (a)  at (-0.5,0.8)  {\scriptsize $10$};
+    \node[node] (b)  at (0.5,0.8)   {\scriptsize $10$};
+    \node[cone] (op) at (0,0.2)     {};                 \node[] (l) at (0,0.2)  {\scriptsize $\boldsymbol{ \wedge}$};    
+    \node[node] (c)  at (0,-0.5)    {\scriptsize $10$};
+    \path
+     (a) edge[] (op)
+     (b) edge[] (op)
+     (op) edge[] (c)
+     ;
+  \end{tikzpicture}
+ \\
+ \hline
+ \multicolumn{3} {l}{ \cellcolor{no_signal} boolean } & \multicolumn{3} {l}{ \cellcolor{signal}  }
+ \\ 
+  \cellcolor{no_signal}
+  \begin{tikzpicture}[->,semithick,>=stealth',scale=1.2]
+    \tikzstyle{node}=[draw=node_gray, circle, minimum size=2.0em, fill=none,text=black]
+    \tikzstyle{cone}=[draw=black, circle, minimum size=1.0em, fill=none,text=black]
+
+    \node[node] (a)  at (-0.5,0.8)  {\scriptsize $0$};
+    \node[node] (b)  at (0.5,0.8)   {\scriptsize $0$};
+    \node[cone] (op) at (0,0.2)     {};                 \node[] (l) at (0,0.2)  {\scriptsize $\boldsymbol{ \wedge}$};    
+    \node[node] (c)  at (0,-0.5)    {\scriptsize $0$};
+    \path
+     (a) edge[] (op)
+     (b) edge[] (op)
+     (op) edge[] (c)
+     ;
+  \end{tikzpicture}
+ &\multicolumn{2} {c}{  
+  \cellcolor{no_signal}
+  \begin{tikzpicture}[->,semithick,>=stealth',scale=1.2]
+    \tikzstyle{node}=[draw=node_gray, circle, minimum size=2.0em, fill=none,text=black]
+    \tikzstyle{cone}=[draw=black, circle, minimum size=1.0em, fill=none,text=black]
+
+    \node[node] (a)  at (-0.5,0.8)  {\scriptsize $0$};
+    \node[node] (b)  at (0.5,0.8)   {\scriptsize $1$};
+    \node[cone] (op) at (0,0.2)     {};                 \node[] (l) at (0,0.2)  {\scriptsize $\boldsymbol{ \wedge}$};    
+    \node[node] (c)  at (0,-0.5)    {\scriptsize $0$};
+    \path
+     (a) edge[] (op)
+     (b) edge[] (op)
+     (op) edge[] (c)
+     ;
+  \end{tikzpicture}
+ }
+ &\multicolumn{3} {c}{
+  \cellcolor{signal}
+  \begin{tikzpicture}[->,semithick,>=stealth',scale=1.2]
+    \tikzstyle{node}=[draw=node_gray, circle, minimum size=2.0em, fill=none,text=black]
+    \tikzstyle{cone}=[draw=black, circle, minimum size=1.0em, fill=none,text=black]
+
+    \node[node] (a)  at (-0.5,0.8)  {\scriptsize $1$};
+    \node[node] (b)  at (0.5,0.8)   {\scriptsize $1$};
+    \node[cone] (op) at (0,0.2)     {};                 \node[] (l) at (0,0.2)  {\scriptsize $\boldsymbol{ \wedge}$};    
+    \node[node] (c)  at (0,-0.5)    {\scriptsize $1$};
+    \path
+     (a) edge[] (op)
+     (b) edge[] (op)
+     (op) edge[] (c)
+     ;
+  \end{tikzpicture}
+  }
+\end{tabular}
+\end{figure}

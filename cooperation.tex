@@ -1,0 +1,326 @@
+The previous part introduced the forward propagation rule for independent regulations.
+I mentioned that there exists a second kind of regulations, cooperative dependent regulation.
+While for independent regulation $i \rightarrow j$  a change in $i$ is sufficient to cause an change in $j$,
+it depends for cooperative regulations on multiple variables whether the change in $i$ will have an effect on $j$.
+Cooperative regulation exists in various forms in biological systems as chemical reactions that need multiple reactants or complex protein interactions.
+In this part I will show how cooperative regulations can be modeled within the sign consistency approach.
+
+
+\section*{Forward propagation in cooperatively regulated variables}
+
+Cooperative regulations are represented as distinct type of variables in our system
+ similiar to {\bf AND} nodes of a logic network.
+The basic idea behind cooperative regulation is that one needs all regulators to have an effect, 
+ but there exist only one limiting factor.
+It might be sufficient to increase (resp. decrease) one of the regulators to change the limiting factor, but
+to ensure a change in the limiting factor all regulators have to increase (resp. decrease).
+
+\begin{figure}
+\begin{tabular}{p{65pt}p{65pt}p{65pt}p{65pt}p{65pt}}
+ \centering $S_1$ & \centering $S_2$ & \centering $S_3$ & \centering $S_4$ & \centering $S_5$ % & $S_6$
+ \cr &
+ \\
+  \centering
+  \begin{tikzpicture}[->,semithick,>=stealth',scale=1.2]
+    \tikzstyle{node}=[draw=node_gray, circle, minimum size=2.0em, fill=none,text=black]
+    \tikzstyle{cone}=[draw=black, circle, minimum size=1.0em, fill=none,text=black]
+
+    \node[node] (a)  at (-0.5,0.8)  {\scriptsize $0$};
+    \node[node] (b)  at (0.5,0.8)   {\scriptsize $0$};
+    \node[cone] (op) at (0,0.2)     {};                 \node[] (l) at (0.01,0.2)  {\scriptsize $\boldsymbol{ \wedge}$};
+    \node[node] (c)  at (0,-0.5)    {\scriptsize $0$};
+    \path
+     (-0.5,1.1) edge[] (a)
+     ( 0.5,1.1) edge[] (b)
+     (a)  edge[edge_green] (op)
+     (b)  edge[edge_green] (op)
+     (op) edge[edge_green] (c)
+     ;
+  \end{tikzpicture}
+ &  
+  \centering
+  \begin{tikzpicture}[->,semithick,>=stealth',scale=1.2]
+    \tikzstyle{node}=[draw=node_gray, circle, minimum size=2.0em, fill=none,text=black]
+    \tikzstyle{cone}=[draw=black, circle, minimum size=1.0em, fill=none,text=black]
+
+    \node[node] (a)  at (-0.5,0.8)  {\scriptsize $0$};
+    \node[node] (b)  at (0.5,0.8)   {\scriptsize $5$};
+    \node[cone] (op) at (0,0.2)     {};                 \node[] (l) at (0.01,0.2)  {\scriptsize $\boldsymbol{ \wedge}$};    
+    \node[node] (c)  at (0,-0.5)    {\scriptsize $0$};
+    \path
+     (-0.5,1.1) edge[] (a)
+     ( 0.5,1.1) edge[] (b)
+     (a)  edge[edge_green] (op)
+     (b)  edge[edge_green] (op)
+     (op) edge[edge_green] (c)
+     ;
+  \end{tikzpicture}
+ &
+  \centering
+  \begin{tikzpicture}[->,semithick,>=stealth',scale=1.2]
+    \tikzstyle{node}=[draw=node_gray, circle, minimum size=2.0em, fill=none,text=black]
+    \tikzstyle{cone}=[draw=black, circle, minimum size=1.0em, fill=none,text=black]
+
+    \node[node] (a)  at (-0.5,0.8)  {\scriptsize $0$};
+    \node[node] (b)  at (0.5,0.8)   {\scriptsize $10$};
+    \node[cone] (op) at (0,0.2)     {};                 \node[] (l) at (0.01,0.2)  {\scriptsize $\boldsymbol{ \wedge}$};    
+    \node[node] (c)  at (0,-0.5)    {\scriptsize $0$};
+    \path
+     (-0.5,1.1) edge[] (a)
+     ( 0.5,1.1) edge[] (b)
+     (a)  edge[edge_green] (op)
+     (b)  edge[edge_green] (op)
+     (op) edge[edge_green] (c)
+     ;
+  \end{tikzpicture}
+ &
+  \centering
+  \begin{tikzpicture}[->,semithick,>=stealth',scale=1.2]
+    \tikzstyle{node}=[draw=node_gray, circle, minimum size=2.0em, fill=none,text=black]
+    \tikzstyle{cone}=[draw=black, circle, minimum size=1.0em, fill=none,text=black]
+
+    \node[node] (a)  at (-0.5,0.8)  {\scriptsize $5$};
+    \node[node] (b)  at (0.5,0.8)   {\scriptsize $5$};
+    \node[cone] (op) at (0,0.2)     {};                 \node[] (l) at (0.01,0.2)  {\scriptsize $\boldsymbol{ \wedge}$};    
+    \node[node] (c)  at (0,-0.5)    {\scriptsize $5$};
+    \path
+     (-0.5,1.1) edge[] (a)
+     ( 0.5,1.1) edge[] (b)
+     (a)  edge[edge_green] (op)
+     (b)  edge[edge_green] (op)
+     (op) edge[edge_green] (c)
+     ;
+  \end{tikzpicture}
+ &
+  \centering
+  \begin{tikzpicture}[->,semithick,>=stealth',scale=1.2]
+    \tikzstyle{node}=[draw=node_gray, circle, minimum size=2.0em, fill=none,text=black]
+    \tikzstyle{cone}=[draw=black, circle, minimum size=1.0em, fill=none,text=black]
+
+    \node[node] (a)  at (-0.5,0.8)  {\scriptsize $5$};
+    \node[node] (b)  at (0.5,0.8)   {\scriptsize $10$};
+    \node[cone] (op) at (0,0.2)     {};                 \node[] (l) at (0.01,0.2)  {\scriptsize $\boldsymbol{ \wedge}$};    
+    \node[node] (c)  at (0,-0.5)    {\scriptsize $5$};
+    \path
+     (-0.5,1.1) edge[] (a)
+     ( 0.5,1.1) edge[] (b)
+     (a)  edge[edge_green] (op)
+     (b)  edge[edge_green] (op)
+     (op) edge[edge_green] (c)
+     ;
+  \end{tikzpicture}
+%  &
+%   \begin{tikzpicture}[->,semithick,>=stealth',scale=1.2]
+%     \tikzstyle{node}=[draw=node_gray, circle, minimum size=2.0em, fill=none,text=black]
+%     \tikzstyle{cone}=[draw=black, circle, minimum size=1.0em, fill=none,text=black]
+% 
+%     \node[node] (a)  at (-0.5,0.8)  {\scriptsize $10$};
+%     \node[node] (b)  at (0.5,0.8)   {\scriptsize $10$};
+%     \node[cone] (op) at (0,0.2)     {};                 \node[] (l) at (0.01,0.2)  {\scriptsize $\boldsymbol{ \wedge}$};    
+%     \node[node] (c)  at (0,-0.5)    {\scriptsize $10$};
+%     \path
+%      (-0.5,1.1) edge[] (a)
+%      ( 0.5,1.1) edge[] (b)
+%      (a)  edge[edge_green] (op)
+%      (b)  edge[edge_green] (op)
+%      (op) edge[edge_green] (c)
+%      ;
+%   \end{tikzpicture}
+\end{tabular}
+\caption{Five quantitative stable states of a cooperatively regulated variable.}
+\label{fig:and_states}
+\end{figure}
+
+
+
+\begin{figure}
+\centering
+\begin{tabular}{ccccccc}
+ $S_1\rightsquigarrow S_1$ & $S_1\rightsquigarrow S_2$ & $\tilde{S}_2\rightsquigarrow S_4$ & $S_1\rightsquigarrow S_4$ & $S_5\rightsquigarrow \tilde{S}_3$ 
+ & $S_5\rightsquigarrow \tilde{S}_5$ & $S_3\rightsquigarrow \tilde{S}_5$  \\
+\\                          
+ \begin{tikzpicture}[->,semithick,>=stealth',scale=1.2]
+    \tikzstyle{node}=[draw=node_gray, circle, minimum size=2.0em, fill=none,text=black]
+    \tikzstyle{up}=[style=node,text=black,text opacity=1,fill=node_green,draw=edge_green]
+    \tikzstyle{dn}=[style=node,text=black,text opacity=1,fill=node_red,draw=edge_red]
+    \tikzstyle{zn}=[style=node,text=black,text opacity=1,fill=node_blue,draw=edge_blue]
+    \tikzstyle{cone}=[draw=black, circle, minimum size=1.0em, fill=none,text=black]
+
+    \node[zn] (a)  at (-0.5,0.8)  {\scriptsize $0$};
+    \node[zn] (b)  at (0.5,0.8)   {\scriptsize $0$};
+    \node[cone] (op) at (0,0.2)     {};                 \node[] (l) at (0.01,0.2)  {\scriptsize $\boldsymbol{ \wedge}$};    
+    \node[zn] (c)  at (0,-0.5)    {\scriptsize $0$};
+    \path
+     (-0.5,1.1) edge[] (a)
+     ( 0.5,1.1) edge[] (b)
+     (a)  edge[edge_green] (op)
+     (b)  edge[edge_green] (op)
+     (op) edge[edge_green] (c)
+     ;
+  \end{tikzpicture}
+ &
+  \begin{tikzpicture}[->,semithick,>=stealth',scale=1.2]
+    \tikzstyle{node}=[draw=node_gray, circle, minimum size=2.0em, fill=none,text=black]
+    \tikzstyle{up}=[style=node,text=black,text opacity=1,fill=node_green,draw=edge_green]
+    \tikzstyle{dn}=[style=node,text=black,text opacity=1,fill=node_red,draw=edge_red]
+    \tikzstyle{zn}=[style=node,text=black,text opacity=1,fill=node_blue,draw=edge_blue]
+    \tikzstyle{cone}=[draw=black, circle, minimum size=1.0em, fill=none,text=black]
+
+    \node[zn] (a)  at (-0.5,0.8)  {\scriptsize $0$};
+    \node[up] (b)  at (0.5,0.8)   {\scriptsize $\plus$};
+    \node[cone] (op) at (0,0.2)     {};                 \node[] (l) at (0.01,0.2)  {\scriptsize $\boldsymbol{ \wedge}$};    
+    \node[zn] (c)  at (0,-0.5)    {\scriptsize 0};
+%     \node[]     (cl) at (0.0,-0.5)  {\scriptsize $0 ~ \plus$};
+    \path
+     (-0.5,1.1) edge[] (a)
+     ( 0.5,1.1) edge[] (b)
+     (a)  edge[edge_green] (op)
+     (b)  edge[edge_green] (op)
+     (op) edge[edge_green] (c)
+     ;
+  \end{tikzpicture}
+ &
+  \begin{tikzpicture}[->,semithick,>=stealth',scale=1.2]
+    \tikzstyle{node}=[draw=node_gray, circle, minimum size=2.0em, fill=none,text=black]
+    \tikzstyle{up}=[style=node,text=black,text opacity=1,fill=node_green,draw=edge_green]
+    \tikzstyle{dn}=[style=node,text=black,text opacity=1,fill=node_red,draw=edge_red]
+    \tikzstyle{zn}=[style=node,text=black,text opacity=1,fill=node_blue,draw=edge_blue]
+    \tikzstyle{cone}=[draw=black, circle, minimum size=1.0em, fill=none,text=black]
+
+    \node[zn] (a)  at (-0.5,0.8)  {\scriptsize $0$};
+    \node[up] (b)  at (0.5,0.8)   {\scriptsize $\plus$};
+    \node[cone] (op) at (0,0.2)     {};                 \node[] (l) at (0.01,0.2)  {\scriptsize $\boldsymbol{ \wedge}$};    
+    \node[up] (c)  at (0,-0.5)    {\scriptsize $\plus$};
+%     \node[]     (cl) at (0.0,-0.5)  {\scriptsize $0 ~ \plus$};
+    \path
+     (-0.5,1.1) edge[] (a)
+     ( 0.5,1.1) edge[] (b)
+     (a)  edge[edge_green] (op)
+     (b)  edge[edge_green] (op)
+     (op) edge[edge_green] (c)
+     ;
+  \end{tikzpicture}
+ &
+  \begin{tikzpicture}[->,semithick,>=stealth',scale=1.2]
+    \tikzstyle{node}=[draw=node_gray, circle, minimum size=2.0em, fill=none,text=black]
+    \tikzstyle{up}=[style=node,text=black,text opacity=1,fill=node_green,draw=edge_green]
+    \tikzstyle{dn}=[style=node,text=black,text opacity=1,fill=node_red,draw=edge_red]
+    \tikzstyle{zn}=[style=node,text=black,text opacity=1,fill=node_blue,draw=edge_blue]
+    \tikzstyle{cone}=[draw=black, circle, minimum size=1.0em, fill=none,text=black]
+
+    \node[up] (a)  at (-0.5,0.8)  {\scriptsize $\plus$};
+    \node[up] (b)  at (0.5,0.8)   {\scriptsize $\plus$};
+    \node[cone] (op) at (0,0.2)     {};                 \node[] (l) at (0.01,0.2)  {\scriptsize $\boldsymbol{ \wedge}$};    
+    \node[up] (c)  at (0,-0.5)    {\scriptsize $\plus$};
+    \path
+     (-0.5,1.1) edge[] (a)
+     ( 0.5,1.1) edge[] (b)
+     (a)  edge[edge_green] (op)
+     (b)  edge[edge_green] (op)
+     (op) edge[edge_green] (c)
+     ;
+  \end{tikzpicture}
+ &
+  \begin{tikzpicture}[->,semithick,>=stealth',scale=1.2]
+    \tikzstyle{node}=[draw=node_gray, circle, minimum size=2.0em, fill=none,text=black]
+    \tikzstyle{up}=[style=node,text=black,text opacity=1,fill=node_green,draw=edge_green]
+    \tikzstyle{dn}=[style=node,text=black,text opacity=1,fill=node_red,draw=edge_red]
+    \tikzstyle{zn}=[style=node,text=black,text opacity=1,fill=node_blue,draw=edge_blue]
+    \tikzstyle{cone}=[draw=black, circle, minimum size=1.0em, fill=none,text=black]
+
+    \node[up] (a)  at (-0.5,0.8)  {\scriptsize $\plus$};
+    \node[dn] (b)  at (0.5,0.8)   {\scriptsize $\minus$};
+    \node[cone] (op) at (0,0.2)     {};                 \node[] (l) at (0.01,0.2)  {\scriptsize $\boldsymbol{ \wedge}$};    
+    \node[dn] (c)  at (0,-0.5)    {\scriptsize $\minus$};
+%     \node[]     (cl) at (0.0,-0.5)  {\tiny $\minus~0~\plus$};
+    \path
+     (-0.5,1.1) edge[] (a)
+     ( 0.5,1.1) edge[] (b)
+     (a)  edge[edge_green] (op)
+     (b)  edge[edge_green] (op)
+     (op) edge[edge_green] (c)
+     ;
+  \end{tikzpicture}
+ &
+  \begin{tikzpicture}[->,semithick,>=stealth',scale=1.2]
+    \tikzstyle{node}=[draw=node_gray, circle, minimum size=2.0em, fill=none,text=black]
+    \tikzstyle{up}=[style=node,text=black,text opacity=1,fill=node_green,draw=edge_green]
+    \tikzstyle{dn}=[style=node,text=black,text opacity=1,fill=node_red,draw=edge_red]
+    \tikzstyle{zn}=[style=node,text=black,text opacity=1,fill=node_blue,draw=edge_blue]
+    \tikzstyle{cone}=[draw=black, circle, minimum size=1.0em, fill=none,text=black]
+
+    \node[up] (a)  at (-0.5,0.8)  {\scriptsize $\plus$};
+    \node[dn] (b)  at (0.5,0.8)   {\scriptsize $\minus$};
+    \node[cone] (op) at (0,0.2)     {};                 \node[] (l) at (0.01,0.2)  {\scriptsize $\boldsymbol{ \wedge}$};    
+    \node[zn] (c)  at (0,-0.5)    {\scriptsize 0};
+%     \node[]     (cl) at (0.0,-0.5)  {\tiny $\minus~0~\plus$};
+    \path
+     (-0.5,1.1) edge[] (a)
+     ( 0.5,1.1) edge[] (b)
+     (a)  edge[edge_green] (op)
+     (b)  edge[edge_green] (op)
+     (op) edge[edge_green] (c)
+     ;
+  \end{tikzpicture}
+ &
+  \begin{tikzpicture}[->,semithick,>=stealth',scale=1.2]
+    \tikzstyle{node}=[draw=node_gray, circle, minimum size=2.0em, fill=none,text=black]
+    \tikzstyle{up}=[style=node,text=black,text opacity=1,fill=node_green,draw=edge_green]
+    \tikzstyle{dn}=[style=node,text=black,text opacity=1,fill=node_red,draw=edge_red]
+    \tikzstyle{zn}=[style=node,text=black,text opacity=1,fill=node_blue,draw=edge_blue]
+    \tikzstyle{cone}=[draw=black, circle, minimum size=1.0em, fill=none,text=black]
+
+    \node[up] (a)  at (-0.5,0.8)  {\scriptsize $\plus$};
+    \node[dn] (b)  at (0.5,0.8)   {\scriptsize $\minus$};
+    \node[cone] (op) at (0,0.2)     {};                 \node[] (l) at (0.01,0.2)  {\scriptsize $\boldsymbol{ \wedge}$};    
+    \node[up] (c)  at (0,-0.5)    {\scriptsize $\plus$};
+%     \node[]     (cl) at (0.0,-0.5)  {\tiny $\minus~0~\plus$};
+    \path
+     (-0.5,1.1) edge[] (a)
+     ( 0.5,1.1) edge[] (b)
+     (a)  edge[edge_green] (op)
+     (b)  edge[edge_green] (op)
+     (op) edge[edge_green] (c)
+     ;
+  \end{tikzpicture}
+  \\
+  \\
+   a) & b) & c) & d) & e) & f) & g)
+\end{tabular}
+\caption{Sign labeling representation of possible transitions among the states in Figure~\ref{fig:and_states}.
+The $\sim$ means that the values of the input nodes have been switched left to right in the state.}
+\label{fig:and_shifts}
+\end{figure}
+
+Figure~\ref{fig:and_states} shows exemplarily five quantitative representations of stable states of 
+ a system were one variable is cooperatively regulated by two predecessors.
+In Figure~\ref{fig:and_shifts} we see the possible sign labelings representing different state transitions.
+%
+We see that for the cases $a$ and $d$ there exists an unambiguous input output behavior.
+In the cases $b$-$c$ and $e$-$g$ we see different outputs for the same input.
+In both state transistions $b$ and $c$ we have an increase in one of the regulators while the other regulator remains unchanged,
+ but only in $c$ the limiting factor has changed leading to a change in the regulated variable.
+This behavior is implemented by the following forward propagation rule.
+%
+\begin{srule}\label{rule_fw_coop}{\bf (forward propagation cooperative regulation)} 0-change can only occur in a variable that depends on a another variable that shows 0-change
+ or if it receives opposing regulations.
+
+Let $(V,E,\sigma)$ be an IG and $V_C \subseteq V$ cooperatively regulated variables.
+Then a labeling $\mu : V \rightarrow \{\plus,\minus,0\}$ satisfies Rule~\ref{rule_fw_coop} for node $i \in V_C$
+ iff
+ \begin{itemize}
+  \item $\mu(i) \neq 0$, or
+  \item there is no edge $j \rightarrow i$ in~$E$ such that $\mu(j)\sigma(j,i) \in \{\plus,\minus\}$, or
+  \item there is an edge $j \rightarrow i$ in~$E$ such that $\sigma(j,i)= 0$, or
+  \item there exist at least two edges $j_1 {\,\rightarrow\,} i$ and $j_2 {\,\rightarrow\,} i$ in~$E$
+ such that $\mu(j_1)\sigma(j_1,i) + \mu(j_2)\sigma(j_2,i) = 0$. 
+ \end{itemize}
+\end{srule}
+This rule implements forward propagation by restricting the occurrence of $0$.
+In other words Rule~\ref{rule_fw_coop} limits the cases were a change in an upstream node can have no effect
+ on the regulated down stream node.
+
+\section*{Conclusion} 
+
+In this part I introduced the forward propagation rule for cooperative regulations.
+In the next part I will introduce a consistency rule that allow us to filter unfounded self regulations.

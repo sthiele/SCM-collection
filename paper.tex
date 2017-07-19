@@ -1,0 +1,104 @@
+\documentclass{llncs}
+\usepackage[OT1]{fontenc} 
+\usepackage[latin1]{inputenc}
+\usepackage[english]{babel}
+\usepackage{amsmath,amsfonts,amssymb}
+\usepackage{cite}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{arrows,automata}
+\usetikzlibrary{decorations.pathreplacing}
+\usepackage{colortbl}
+\usepackage{tabularx}
+\input{macro}
+
+
+\begin{document}
+\pagestyle{plain}
+
+\title{Sign consistency methods to reason over the transitional behavior of dynamic systems.}
+\author{
+  Sven~Thiele\inst{1}
+}
+\institute{
+Max Planck Institute for Dynamics of Complex Technical Systems, 39106 Magdeburg, Germany.
+}
+\maketitle
+
+\section*{Motivation}
+\input{motivation}
+
+\tableofcontents
+
+\nocite{sk06}
+\nocite{saez2009}
+\nocite{sthiele10b}
+\nocite{sthiele11a}
+\nocite{samaga13a}
+\nocite{samaga13b}
+\nocite{sthiele15}
+
+
+\bibliographystyle{abbrv}
+\bibliography{local} 
+
+
+\chapter*{Interaction graphs and signed system changes}
+\addcontentsline{toc}{chapter}{Interaction graphs and signed system changes}
+\input{introduction}
+% \bibliographystyle{abbrv}
+% \bibliography{local} 
+
+\chapter*{Predicting system responses to perturbations}
+\addcontentsline{toc}{chapter}{Predicting system responses to perturbations}
+\input{perturbations}
+
+\chapter*{Minimum and Maximum level constraints}
+\addcontentsline{toc}{chapter}{Minimum and Maximum level constraints}
+\input{minmax}
+
+\chapter*{Predicting effects on downstream regulated variables}
+\addcontentsline{toc}{chapter}{Predicting effects on downstream regulated variables}
+\input{forward}
+
+\chapter*{Predicting effects on cooperatively regulated variables}
+\addcontentsline{toc}{chapter}{Predicting effects on cooperatively regulated variables}
+\input{cooperation}
+
+\chapter*{Excluding circular self regulation}
+\addcontentsline{toc}{chapter}{Excluding circular self regulation}
+\input{founded}
+
+\chapter*{Excluding feedback regulations}
+\addcontentsline{toc}{chapter}{Excluding feedback regulation}
+\input{elempath}
+
+\chapter*{Model consistency wrt. measuremented data}
+\addcontentsline{toc}{chapter}{Model consistency wrt. measuremented data}
+\input{measurements}
+
+% \chapter*{Overview comparing sign consistency rules}
+% \addcontentsline{toc}{chapter}{Model consistency wrt. measuremented data}
+% \input{measurements}
+ 
+\chapter*{Consistency index and data repair}
+\addcontentsline{toc}{chapter}{Consistency index and data repair}
+\input{datarepair}
+
+\chapter*{Model repair network inference}
+\addcontentsline{toc}{chapter}{Model repair network inference}
+\input{modelrepair}
+
+\chapter*{Dependency matrix}
+\addcontentsline{toc}{chapter}{Dependency matrix}
+\input{depmat}
+
+\chapter*{Experiment design}
+\addcontentsline{toc}{chapter}{Experiment design}
+\input{expidesi}
+
+\chapter*{Relation to Boolean Networks}
+\addcontentsline{toc}{chapter}{Relation to Boolean Networks}
+% \input{boolean}
+
+\end{document}

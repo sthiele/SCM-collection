@@ -1,0 +1,154 @@
+Previously, we covered the sign consistency rule for backward propagation.
+In this part I will introduce a new rules that discards solutions that
+violate minimum and maximum constraints on system variables.
+
+ 
+\section*{Constrained values for system variables} 
+
+A lot of variables in biological systems have minimum (resp. maximum) constraints.
+Concentration level cannot go below $0$ or above $100\%$, and 
+signals which are below the detection threshold cannot drop any further.
+Figure~\ref{fig:minmax} shows an IG with $4$ variables $a$, $b$, $c$ and $d$. 
+Lets say the variable $c$ represent a concentration and only values in the range of $0$ to $100$ are valid.
+Further, we know that in our reference state $S_R$ the variable $c$ is at its minimum.
+Let's try to find all labelings $\mu_{i}$ that represent transisitions from $S_R$ to a state $S_i$ 
+ where the level of $d$ has increased, $\mu_{i}(d)=\plus$.
+Figure~\ref{fig:minmaxlabelings} shows all labelings $\mu_{i}$ that satisfy consistency Rule~\ref{rule_bw}.
+The labelings $\mu_2$ and $\mu_3$ violate the the minimum constraint on variable $c$, 
+ because there exists no value for $c$ in $[0,100]$ such that $ sign(c-0)=\minus$.
+
+
+\begin{figure}\label{fig:minmax}
+\centering
+  \begin{tikzpicture}[->,semithick,>=stealth',scale=1.2]
+    \tikzstyle{node}=[draw=node_gray, circle, minimum size=2.0em, fill=none,text=black]
+    \tikzstyle{up}=[style=node,text=black,text opacity=1,fill=node_green,draw=edge_green]
+    \tikzstyle{dn}=[style=node,text=black,text opacity=1,fill=node_red,draw=edge_red]
+    \tikzstyle{zn}=[style=node,text=black,text opacity=1,fill=node_blue,draw=edge_blue]
+
+    \node[node] (a) at (0,0)       {$a$};
+    \node[node] (b) at (-0.6,-0.8) {$b$};
+    \node[node] (c) at ( 0.6,-0.8) {$c$};
+    \node[node] (d) at (0,-1.6)    {$d$};
+    \node[text=white]     (l) at (0,-2.4)    {O};
+    \path
+     (0,0.3) edge (a)
+     (a) edge[edge_green]  (b)
+     (a) edge[edge_red,-|] (c)     
+     (b) edge[edge_green]  (d)
+     (c) edge[edge_red,-|] (d)   
+     ;
+  \end{tikzpicture}
+  ~~~~~  
+  \begin{tikzpicture}[->,semithick,>=stealth',scale=1.2]
+    \tikzstyle{node}=[draw=node_gray, circle, minimum size=2.0em, fill=none,text=black]
+    \tikzstyle{up}=[style=node,text=black,text opacity=1,fill=node_green,draw=edge_green]
+    \tikzstyle{dn}=[style=node,text=black,text opacity=1,fill=node_red,draw=edge_red]
+    \tikzstyle{zn}=[style=node,text=black,text opacity=1,fill=node_blue,draw=edge_blue]
+
+    \node[node] (a) at (0,0)       {\scriptsize ?};
+    \node[node] (b) at (-0.6,-0.8) {\scriptsize ?};
+    \node[node] (c) at ( 0.6,-0.8) {\scriptsize $0$};
+    \node[node] (d) at (0,-1.6)    {\scriptsize ?};
+    \node[]     (l) at (0,-2.4)    {$S_R $};
+    \path
+     (0,0.3) edge (a)
+     (a) edge[edge_green]  (b)
+     (a) edge[edge_red,-|] (c)     
+     (b) edge[edge_green]  (d)
+     (c) edge[edge_red,-|] (d)   
+     ;
+  \end{tikzpicture}
+  \caption{An IG and with the reference state $S_R$ where variable $c$ on its minimum.}
+\end{figure}  
+
+\begin{figure}\label{fig:minmaxlabelings}
+\centering
+  \begin{tikzpicture}[->,semithick,>=stealth',scale=1.2]
+    \tikzstyle{node}=[draw=node_gray, circle, minimum size=2.0em, fill=none,text=black]
+    \tikzstyle{up}=[style=node,text=black,text opacity=1,fill=node_green,draw=edge_green]
+    \tikzstyle{dn}=[style=node,text=black,text opacity=1,fill=node_red,draw=edge_red]
+    \tikzstyle{zn}=[style=node,text=black,text opacity=1,fill=node_blue,draw=edge_blue]
+
+    \node[up] (a) at (0,0)       {\scriptsize $\plus$};
+    \node[up] (b) at (-0.6,-0.8) {\scriptsize $\plus$};
+    \node[zn] (c) at ( 0.6,-0.8) {\scriptsize $0$};
+    \node[thick,up] (d) at (0,-1.6)    {\scriptsize $\plus$};
+    \node[]   (l) at (0,-2.4)    {$\mu_1$};
+    \path
+     (0,0.3) edge (a)
+     (a) edge[edge_green]  (b)
+     (a) edge[edge_red,-|] (c)     
+     (b) edge[edge_green]  (d)
+     (c) edge[edge_red,-|] (d)   
+     ;
+  \end{tikzpicture}
+  ~~~~~  
+  \begin{tikzpicture}[->,semithick,>=stealth',scale=1.2]
+    \tikzstyle{node}=[draw=node_gray, circle, minimum size=2.0em, fill=none,text=black]
+    \tikzstyle{up}=[style=node,text=black,text opacity=1,fill=node_green,draw=edge_green]
+    \tikzstyle{dn}=[style=node,text=black,text opacity=1,fill=node_red,draw=edge_red]
+    \tikzstyle{zn}=[style=node,text=black,text opacity=1,fill=node_blue,draw=edge_blue]
+
+    \node[up] (a) at (0,0)       {\scriptsize $\plus$};
+    \node[zn] (b) at (-0.6,-0.8) {\scriptsize $0$};
+    \node[dn] (c) at ( 0.6,-0.8) {\scriptsize $\minus$};
+    \node[thick,up] (d) at (0,-1.6)    {\scriptsize $\plus$};
+    \node[]   (l) at (0,-2.4)    {$\mu_2$};
+    \path
+     (0,0.3) edge (a)
+     (a) edge[edge_green]  (b)
+     (a) edge[edge_red,-|] (c)     
+     (b) edge[edge_green]  (d)
+     (c) edge[edge_red,-|] (d)   
+     ;
+  \end{tikzpicture}
+  ~~~~~  
+  \begin{tikzpicture}[->,semithick,>=stealth',scale=1.2]
+    \tikzstyle{node}=[draw=node_gray, circle, minimum size=2.0em, fill=none,text=black]
+    \tikzstyle{up}=[style=node,text=black,text opacity=1,fill=node_green,draw=edge_green]
+    \tikzstyle{dn}=[style=node,text=black,text opacity=1,fill=node_red,draw=edge_red]
+    \tikzstyle{zn}=[style=node,text=black,text opacity=1,fill=node_blue,draw=edge_blue]
+
+    \node[up] (a) at (0,0)       {\scriptsize $\plus$};
+    \node[up] (b) at (-0.6,-0.8) {\scriptsize $\plus$};
+    \node[dn] (c) at ( 0.6,-0.8) {\scriptsize $\minus$};
+    \node[thick,up] (d) at (0,-1.6)    {\scriptsize $\plus$};
+    \node[]   (l) at (0,-2.4)    {$\mu_3$};
+    \path
+     (0,0.3) edge (a)
+     (a) edge[edge_green]  (b)
+     (a) edge[edge_red,-|] (c)     
+     (b) edge[edge_green]  (d)
+     (c) edge[edge_red,-|] (d)   
+     ;
+  \end{tikzpicture}
+  \caption{All labelings $\mu_i$ with $\mu_i(d)=\plus$ that satisfy Rule~\ref{rule_bw}. 
+   Only $\mu_1$ is consistent with the value restrictions of variable $c$.}
+\end{figure}
+
+To deal with minimum (resp. maximum) constraints we introduce a new consistency rule.
+
+\begin{srule}[obey minima/maxima]
+\label{rule_minmax}
+{\upshape A variable that is on its minimum cannot decrease and an variable at its maximum cannot increase.}
+
+Let $(V, E, \sigma)$ be an IG, 
+$MIN \subseteq V$ variables that are at their minimum, and  
+$MAX \subseteq V$ variables that are at their maximum.
+Then a labeling $\mu : V \rightarrow \{\plus, \minus, 0\}$ satisfies Rule~\ref{rule_minmax} for node $i \in V$ iff
+\begin{itemize}
+ \item $\mu(i) = 0$, or
+ \item $\mu(i) = \minus$, and $i \notin MIN$ or 
+ \item $\mu(i) = \plus$, and $i \notin MAX$.
+\end{itemize}
+\end{srule}
+
+Rule~\ref{rule_minmax} allows us to exclude solutions that violate the constraints on minimal/maximal values.
+In Figure~\ref{fig:minmaxlabelings} only labeling $\mu_1$ satisfies both consistency rules~\ref{rule_bw} and~\ref{rule_minmax}.
+
+\section*{Conclusion}
+In this part I introduced an consistency rule that allows us to filter solutions that violate constraints 
+ restricting the minimum or maximum level of system variables.
+I have shown how it can be combined with other consistency rules to get better explainations for state transistions.
+In the next part I will introduce a new consistency rule that increases the predictive power of sign consistency methods.
