@@ -1,6 +1,6 @@
 The previous part introduced the forward propagation rule for independent regulations.
 I mentioned that there exists a second kind of regulations, cooperative dependent regulation.
-While for independent regulation $i \rightarrow j$  a change in $i$ is sufficient to cause an change in $j$,
+While for independent regulation $i \rightarrow j$  a change in $i$ is sufficient to cause a change in $j$,
 it depends for cooperative regulations on multiple variables whether the change in $i$ will have an effect on $j$.
 Cooperative regulation exists in various forms in biological systems as chemical reactions that need multiple reactants or complex protein interactions.
 In this part I will show how cooperative regulations can be modeled within the sign consistency approach.
@@ -9,7 +9,7 @@ In this part I will show how cooperative regulations can be modeled within the s
 \section*{Forward propagation in cooperatively regulated variables}
 
 Cooperative regulations are represented as distinct type of variables in our system
- similiar to {\bf AND} nodes of a logic network.
+ similar to {\bf AND} nodes of a logic network.
 The basic idea behind cooperative regulation is that one needs all regulators to have an effect, 
  but there exist only one limiting factor.
 It might be sufficient to increase (resp. decrease) one of the regulators to change the limiting factor, but
@@ -292,17 +292,18 @@ The $\sim$ means that the values of the input nodes have been switched left to r
 \label{fig:and_shifts}
 \end{figure}
 
-Figure~\ref{fig:and_states} shows exemplarily five quantitative representations of stable states of 
- a system were one variable is cooperatively regulated by two predecessors.
+Figure~\ref{fig:and_states} shows exemplary five quantitative representations of stable states of 
+ a system where one variable is cooperatively regulated by two predecessors.
 In Figure~\ref{fig:and_shifts} we see the possible sign labelings representing different state transitions.
 %
 We see that for the cases $a$ and $d$ there exists an unambiguous input output behavior.
 In the cases $b$-$c$ and $e$-$g$ we see different outputs for the same input.
-In both state transistions $b$ and $c$ we have an increase in one of the regulators while the other regulator remains unchanged,
+In both state transitions $b$ and $c$ we have an increase in one of the regulators while the other regulator remains unchanged,
  but only in $c$ the limiting factor has changed leading to a change in the regulated variable.
 This behavior is implemented by the following forward propagation rule.
 %
-\begin{srule}\label{rule_fw_coop}{\bf (forward propagation cooperative regulation)} 0-change can only occur in a variable that depends on a another variable that shows 0-change
+\begin{srule}\label{rule_fw_coop}{\bf (forward propagation cooperative regulation)} 
+0-change can only occur in a variable that depends on another variable that shows 0-change
  or if it receives opposing regulations.
 
 Let $(V,E,\sigma)$ be an IG and $V_C \subseteq V$ cooperatively regulated variables.

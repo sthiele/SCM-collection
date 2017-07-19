@@ -149,9 +149,9 @@ We use the colors
 
 Further, sign consistency methods define rules that determine which labelings 
 of the graph are considered consistent and which are considered inconsistent.
-There exist several different consistency rules which are useful to model different 
+There exist several consistency rules which are useful to model different 
 properties of a biological system. 
-For now we only consider the following.
+For now, we only consider the following.
 
 \begin{srule}[backwards propagation]
 \label{rule_bw}
@@ -176,7 +176,7 @@ Hence, the change in one variable must be sustained by the change in one of its 
 In other words,
  if $S_R$ and $S_O$ are steady states of the system
  then the labeling $\mu_{RO}$ is consistent with Rule~\ref{rule_bw}.
-The trivial example is when both state are the same $S_R = S_O$ then nothing changes $\forall x \in V : \mu_{RO}(x) = 0$.
+The trivial example is when both states are the same $S_R = S_O$ then nothing changes $\forall x \in V : \mu_{RO}(x) = 0$.
 
 Let's see what else we can do with that. 
 Figure~\ref{fig:ig_labeled} shows an interaction graph and all labelings $\mu_i : V \rightarrow \{\plus, \minus, 0\}$ with $\mu_i(a)=\plus$ 

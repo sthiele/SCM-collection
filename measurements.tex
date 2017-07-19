@@ -21,7 +21,7 @@ For measured variables $v \in V$,
  we compute the difference between the values measured in a reference state and an operational state $obs(v) = (v_R - v_O)$.
 The result is a value in $\mathbb{R}$. 
 Depending on four thresholds $t_1 \leq t_2 < 0 < t_3 \leq t_4$, that should be defined on a case by case basis,
- we can use the quantitative change to define five deiscrete observation types.
+ we can use the quantitative change to define five discrete observation types.
 As illustrated in Figure~\ref{fig:sign_discretization}, 
 these thresholds define a (partial) mapping $\nu: V \rightarrow \{ \minus, \uncertaindecrease, 0, \uncertainincrease, \plus \}$ as follows:
 \[
@@ -80,10 +80,10 @@ Then a labeling $\mu : V \rightarrow \{\plus,\minus,0\}$ satisfies Rule~\ref{def
 This rule ensures that a labeling is compatible with the measured changes.
 Note, uncertain measurements restrict the labeling of a node to two out of the three values $\{\plus, \minus, 0\}$,
 while measurements with high certainty fix a node's label to exactly one value.
-In Figure~\ref{fig:obs_label} we see a partial observations labeling and the corresponding sign labelings 
+In Figure~\ref{fig:obs_label} we see a partial observation labeling and the corresponding sign labelings 
  that satisfy Rule~\ref{def:constraint_obs}.
 Note that only the labeling $\mu_{11}$ satisfies Rule~1.
-This means using sign consistency we can use incomplete and uncertain measurent data to make predictions on the behavior of unobserved system variables.
+This means using sign consistency we can use incomplete and uncertain measurement data to make predictions on the behavior of unobserved system variables.
 
 \begin{figure}
 \begin{tabular}{ccccc}%{p{70pt}p{60pt}p{60pt}p{60pt}p{60pt}}
@@ -438,7 +438,7 @@ If for a given IG and a set of observed changes $\nu$ there exist no sign labeli
 the model is not able to explain the observed behavior. 
 In other words either the model or the measurements are faulty.
 In this case we can apply a variety of repair methods can be applied to repair model or data.
-These methods will be explain in detail following parts.
+These methods will be explained in detail following parts.
 
 
 

@@ -1,5 +1,5 @@
 Previously, we covered the sign consistency rule for backward propagation.
-In this part I will introduce a new rules that discards solutions that
+In this part I will introduce a new rule that discards solutions that
 violate minimum and maximum constraints on system variables.
 
  
@@ -9,12 +9,12 @@ A lot of variables in biological systems have minimum (resp. maximum) constraint
 Concentration level cannot go below $0$ or above $100\%$, and 
 signals which are below the detection threshold cannot drop any further.
 Figure~\ref{fig:minmax} shows an IG with $4$ variables $a$, $b$, $c$ and $d$. 
-Lets say the variable $c$ represent a concentration and only values in the range of $0$ to $100$ are valid.
+Let's say the variable $c$ represent a concentration and only values in the range of $0$ to $100$ are valid.
 Further, we know that in our reference state $S_R$ the variable $c$ is at its minimum.
-Let's try to find all labelings $\mu_{i}$ that represent transisitions from $S_R$ to a state $S_i$ 
+Let's try to find all labelings $\mu_{i}$ that represent transitions from $S_R$ to a state $S_i$ 
  where the level of $d$ has increased, $\mu_{i}(d)=\plus$.
 Figure~\ref{fig:minmaxlabelings} shows all labelings $\mu_{i}$ that satisfy consistency Rule~\ref{rule_bw}.
-The labelings $\mu_2$ and $\mu_3$ violate the the minimum constraint on variable $c$, 
+The labelings $\mu_2$ and $\mu_3$ violate the minimum constraint on variable $c$, 
  because there exists no value for $c$ in $[0,100]$ such that $ sign(c-0)=\minus$.
 
 
@@ -131,7 +131,7 @@ To deal with minimum (resp. maximum) constraints we introduce a new consistency 
 
 \begin{srule}[obey minima/maxima]
 \label{rule_minmax}
-{\upshape A variable that is on its minimum cannot decrease and an variable at its maximum cannot increase.}
+{\upshape A variable that is on its minimum cannot decrease and a variable at its maximum cannot increase.}
 
 Let $(V, E, \sigma)$ be an IG, 
 $MIN \subseteq V$ variables that are at their minimum, and  
@@ -150,5 +150,5 @@ In Figure~\ref{fig:minmaxlabelings} only labeling $\mu_1$ satisfies both consist
 \section*{Conclusion}
 In this part I introduced an consistency rule that allows us to filter solutions that violate constraints 
  restricting the minimum or maximum level of system variables.
-I have shown how it can be combined with other consistency rules to get better explainations for state transistions.
+I have shown how it can be combined with other consistency rules to get better explanations for state transitions.
 In the next part I will introduce a new consistency rule that increases the predictive power of sign consistency methods.
